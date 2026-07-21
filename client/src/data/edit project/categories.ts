@@ -1,4 +1,4 @@
-import { CategoryOption } from "@/types/editProject";
+import { CategoryOption } from "@/types/";
 
 export const categoryOptions: CategoryOption[] = [
     { id: "residential", name: "Residential" },

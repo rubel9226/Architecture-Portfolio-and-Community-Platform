@@ -4,8 +4,8 @@ export const visibilityFilters: FilterItem[] = [
     { id: 'ALL', label: 'All Projects' },
     { id: 'PUBLIC', label: 'Public' },
     { id: 'PRIVATE', label: 'Private' },
-    { id: 'DRAFT', label: 'Drafts' },
-    { id: 'ARCHIVED', label: 'Archived' }
+    // { id: 'DRAFT', label: 'Drafts' },
+    // { id: 'ARCHIVED', label: 'Archived' }
 ];
 
 export const categoryFilters: FilterItem[] = [

@@ -1,38 +1,30 @@
-// types/project.ts
-import { z } from 'zod';
+export type ProjectVisibility = "PUBLIC" | "PRIVATE";
 
-export const projectSchema = z.object({
-    title: z.string().min(3, 'Project title must be at least 3 characters.'),
-    category: z.string().min(1, 'Please select a design category.'),
-    projectType: z.string().min(1, 'Project type is required.'),
-    year: z.string().regex(/^\d{4}$/, 'Must be a valid 4-digit year.'),
-    location: z.string().min(2, 'Location is required.'),
-    university: z.string().min(2, 'University node context is required.'),
-    teamMembers: z.string().optional(),
-    clientName: z.string().optional(),
-    coverImage: z.any().refine((file) => file instanceof File || (typeof file === 'string' && file.length > 0), 'A valid cover image is required.'),
-    galleryImages: z.array(z.any()),
-    overview: z.string().min(20, 'Provide at least 20 characters of overview context.'),
-    designConcept: z.string().optional(),
-    materialsUsed: z.string().optional(),
-    constructionProcess: z.string().optional(),
-    challenges: z.string().optional(),
-    solutions: z.string().optional(),
-    softwareUsed: z.array(z.string()).min(1, 'Select at least one drafting/rendering software.'),
-    tags: z.array(z.string()).min(1, 'Add at least one architectural tag.'),
-    visibility: z.enum(['PUBLIC', 'PRIVATE'])
-});
-
-export type ProjectFormData = z.infer<typeof projectSchema>;
-
-export interface CategoryItem {
-    id: string;
+export interface ProjectFormData {
     title: string;
-    iconName: string;
+    category: string;
+    projectType: string;
+    year: string;
+    location: string;
+    university?: string;
+    teamMembers?: string;
+    clientName?: string;
+    overview: string;
+    designConcept?: string;
+    materialsUsed?: string;
+    coverImage: File | null;
+    galleryImages: File[];
+    softwareUsed: string[];
+    tags: string[];
+    visibility: ProjectVisibility;
+}
+    
+export interface UploadProgress {
+    percentage: number;
+    isUploading: boolean;
 }
 
-export interface SoftwareItem {
-    id: string;
-    name: string;
-    iconName: string;
+export interface SelectOption {
+    value: string;
+    label: string;
 }

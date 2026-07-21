@@ -1,44 +1,40 @@
-export interface Creator {
-    name: string;
-    avatar: string;
-}
-
-export interface ProjectDescriptionSection {
-    overview: string;
-    designConcept: string;
-    materials: string;
-    constructionProcess: string;
-    challenges: string;
-    solutions: string;
-}
+export type ProjectVisibility = 'public' | 'private' | 'unlisted';
 
 export interface ProjectData {
-    id: string;
-    title: string;
-    shortDescription: string;
-    category: string;
-    projectType: string;
-    year: number;
-    location: string;
-    university: string;
-    clientName: string;
-    teamMembers: string;
-    status: "completed" | "in-progress" | "concept";
-    coverImage: string;
-    gallery: string[];
-    description: ProjectDescriptionSection;
-    software: string[];
-    tags: string[];
-    visibility: "public" | "private" | "draft";
-    creator?: Creator;
+  id: string;
+  title: string;
+  category: string;
+  projectType: string;
+  year: number;
+  location: string;
+  university?: string;
+  teamMembers: string[];
+  clientName?: string;
+  overview: string;
+  designConcept?: string;
+  materialsUsed: string[];
+  coverImage: string; // Cloudinary URL
+  galleryImages: string[]; // Cloudinary URLs
+  softwareUsed: string[];
+  tags: string[];
+  visibility: ProjectVisibility;
 }
 
-export interface CategoryOption {
-    id: string;
-    name: string;
-}
-
-export interface SoftwareOption {
-    id: string;
-    name: string;
+export interface EditProjectFormData {
+  title: string;
+  category: string;
+  projectType: string;
+  year: number;
+  location: string;
+  university: string;
+  teamMembers: string[];
+  clientName: string;
+  overview: string;
+  designConcept: string;
+  materialsUsed: string[];
+  coverImage: File | string | null;
+  galleryImages: (File | string)[];
+  softwareUsed: string[];
+  tags: string[];
+  visibility: ProjectVisibility;
 }

@@ -23,7 +23,7 @@ export const registerSchema = z
             .regex(/[^A-Za-z0-9]/, { message: "Must contain at least one special character." }),
         confirmPassword: z.string(), 
         agreeTerms: z.literal(true, {
-            errorMap: () => ({ message: "You must accept the Terms and Conditions to proceed." }),
+            message: "You must accept the Terms and Conditions to proceed.",
         }), 
     })
     .refine((data) => data.password === data.confirmPassword, {

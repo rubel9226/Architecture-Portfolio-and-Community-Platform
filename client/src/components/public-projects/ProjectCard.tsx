@@ -4,7 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Eye, Heart, Bookmark, Share2, Sparkles, GraduationCap, MapPin } from "lucide-react";
-import { Project } from "@/types/project";
+import { Project } from "@/types/publicProject";
+
 
 interface ProjectCardProps {
   project: Project;

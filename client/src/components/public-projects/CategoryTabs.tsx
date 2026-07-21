@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Category } from "@/types/project";
+import { Category } from "@/types/publicProject";
 
 interface CategoryTabsProps {
   categories: Category[];

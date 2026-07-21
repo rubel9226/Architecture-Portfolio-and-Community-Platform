@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import "./globals.css"; 
+import { Footer } from "@/components/layout/Footer"; 
+import NavbarMain from "@/components/layout/NavbarMain";
+import { AuthProvider } from "@/hooks/AuthContext";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -22,10 +23,22 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
+  let user = null;
+  let token = null
+  try{
+    const session = await auth?.api?.getSession({
+      headers: await headers(),
+    });
+  
+    user = session?.user;
+  
+    const tokenData = await auth?.api?.getToken({
+      headers: await headers(),
+    });
+    token = tokenData?.token;
+  }catch (error){
+    console.log(error);
+  }
 
   return (
     <html
@@ -33,9 +46,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar session={session} />
-        {children}
-        <Footer />
+        <AuthProvider user={user} token={token}  >
+          <NavbarMain />
+          {children}
+          <Footer /> 
+        </AuthProvider>
       </body>
     </html>
   );

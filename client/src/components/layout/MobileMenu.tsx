@@ -38,6 +38,7 @@ const categories = [
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLoggedIn, user }) => {
   const pathname = usePathname();
   const [exploreOpen, setExploreOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -156,9 +157,16 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
               <button 
                 type="button"
                 className="flex w-full items-center justify-center gap-2 h-11 rounded-full bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400 font-medium text-sm"
-                onClick={handleLogout}
+                onClick={() => handleLogout(setLoading)}
+                disabled={loading}
               >
-                <LogOut className="h-4 w-4" /> Sign Out
+                {loading ? (
+                  <>Please wait...</>
+                ) : (
+                  <>
+                    <LogOut className="h-4 w-4" /> Sign Out
+                  </>
+                )}
               </button>
             </div>
           ) : (

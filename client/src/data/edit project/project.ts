@@ -1,4 +1,4 @@
-import { ProjectData } from "@/types/editProject";
+import { ProjectData } from "@/types/";
 
 export const existingProjectMock: ProjectData = {
     id: "arch-702",

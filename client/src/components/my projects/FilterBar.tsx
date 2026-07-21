@@ -15,7 +15,7 @@ export default function FilterBar() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <SearchBar />
                 <div className="flex items-center gap-2 self-end md:self-auto">
-                    <SortDropdown />
+                    {/* <SortDropdown /> */}
                     <ViewToggle />
                 </div>
             </div>

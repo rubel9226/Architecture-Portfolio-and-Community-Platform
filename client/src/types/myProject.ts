@@ -2,7 +2,8 @@
 export type ProjectVisibility = 'PUBLIC' | 'PRIVATE' | 'DRAFT';
 
 export interface Project {
-    id: string;
+    _id: string;
+    isPortfolio: boolean;
     title: string;
     coverImage: string;
     category: string;

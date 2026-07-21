@@ -1,4 +1,4 @@
-import { SoftwareOption } from "@/types/editProject";
+import { SoftwareOption } from "@/types/";
 
 export const softwareOptions: SoftwareOption[] = [
     { id: "autocad", name: "AutoCAD" },

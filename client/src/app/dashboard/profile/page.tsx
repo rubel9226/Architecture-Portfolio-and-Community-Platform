@@ -10,53 +10,43 @@ import ProfileStats from '@/components/my profile/ProfileStats';
 import ProjectGallery from '@/components/my profile/ProjectGallery';
 import SimilarCreators from '@/components/my profile/SimilarCreators';
 import SkillsSection from '@/components/my profile/SkillsSection';
+import ComingSoonPage from '@/components/ui/ComingSoon';
 import { profileInfo, statistics, aboutDetails, skillsList, projectData, experienceTimeline, educationHistory, achievementsList, similarCreators } from '@/data/profileData';
 
 
 
 export default function ArchitecturePortfolioPage() {
     return (
-        <main className="min-h-screen bg-slate-50/60 pb-20 selection:bg-blue-600/10 antialiased">
+        // <main className="min-h-screen bg-slate-50/60 pb-20 selection:bg-blue-600/10 antialiased">
+        //     <ProfileHero info={profileInfo} />
 
-            <ProfileHero info={profileInfo} />
+        //     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 space-y-12">
+        //         <ProfileStats stats={statistics} />
+        //         <AboutSection details={aboutDetails} />
 
+        //         <div className="space-y-4">
+        //             <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">Architectural Decks & Artifacts</h3>
+        //             <ProjectGallery initialProjects={projectData} />
+        //         </div>
 
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 space-y-12">
+        //         <SkillsSection list={skillsList} />
 
-                <ProfileStats stats={statistics} />
+        //         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        //             <div className="space-y-8">
+        //                 <ExperienceSection timeline={experienceTimeline} />
+        //             </div>
+        //             <div className="space-y-8">
+        //                 <EducationSection history={educationHistory} />
+        //                 <AchievementSection list={achievementsList} />
+        //             </div>
+        //         </div>
 
+        //         <SimilarCreators creators={similarCreators} />
 
-                <AboutSection details={aboutDetails} />
-
-
-                <div className="space-y-4">
-                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">Architectural Decks & Artifacts</h3>
-                    <ProjectGallery initialProjects={projectData} />
-                </div>
-
-
-                <SkillsSection list={skillsList} />
-
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    <div className="space-y-8">
-                        <ExperienceSection timeline={experienceTimeline} />
-                    </div>
-                    <div className="space-y-8">
-                        <EducationSection history={educationHistory} />
-                        <AchievementSection list={achievementsList} />
-                    </div>
-                </div>
-
-
-                <SimilarCreators creators={similarCreators} />
-
-
-                <ContactSection />
-
-
-                <CTA />
-            </div>
-        </main>
+        //         <ContactSection />
+        //         <CTA />
+        //     </div>
+        // </main>
+        <ComingSoonPage />
     );
 }

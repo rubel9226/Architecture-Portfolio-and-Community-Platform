@@ -9,14 +9,30 @@ import { Logo } from '../ui/Logo';
 import { ProfileDropdown } from './ProfileDropdown';
 import { MobileMenu } from './MobileMenu';
 
-export const Navbar: React.FC = ({session}) => {
+interface NavbarProps {
+  session: {
+    session: any;
+    user: {
+      name: string;
+      email: string;
+      image?: string | null;
+      [key: string]: any;
+    };
+  } | null;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({session}) => {
 
   const pathname = usePathname();  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Mock Authentication State
-  const [isLoggedIn] = useState(session?.user);
-  const mockUser = session?.user; 
+  const isLoggedIn = !!session?.user;
+  const mockUser = {
+    name: session?.user?.name || '',
+    email: session?.user?.email || '',
+    avatarUrl: session?.user?.image || '',
+  }; 
 
   const isLinkActive = (href: string) => pathname === href;
 
@@ -124,13 +140,13 @@ export const Navbar: React.FC = ({session}) => {
 
         </div>
       </header>
-
       <MobileMenu 
         isOpen={mobileMenuOpen} 
         onClose={() => setMobileMenuOpen(false)} 
         isLoggedIn={isLoggedIn}
         user={mockUser}
       />
+
     </>
   );
 };

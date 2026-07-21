@@ -1,133 +1,127 @@
-// app/projects/create/page.tsx
-'use client';
-import { useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { AlertCircle } from 'lucide-react';
-import CreateProjectHeader from '@/components/add projects/CreateProjectHeader';
-import ProjectInformation from '@/components/add projects/ProjectInformation';
-import ProjectMediaUpload from '@/components/add projects/ProjectMediaUpload';
-import ProjectDetails from '@/components/add projects/ProjectDetails';
-import SoftwareSelector from '@/components/add projects/SoftwareSelector';
-import TagSelector from '@/components/add projects/TagSelector';
-import VisibilitySelector from '@/components/add projects/VisibilitySelector';
-import ProjectPreview from '@/components/add projects/ProjectPreview';
-import PublishActions from '@/components/add projects/PublishActions';
-import UploadProgress from '@/components/add projects/UploadProgress';
-import { ProjectFormData, projectSchema } from '@/types/addProject';
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"; 
+import { ProjectFormData, UploadProgress } from "@/types/addProject";
+import { projectSchema } from "@/validation/addSchema";
+import api from "@/lib/api";
+import ProjectInformation from "@/components/add project/ProjectInformation";
+import CategorySelector from "@/components/add project/CategorySelector";
+import ProjectMediaUpload from "@/components/add project/ProjectMediaUpload";
+import ProjectGallery from "@/components/add project/ProjectGallery";
+import ProjectDetails from "@/components/add project/ProjectDetails";
+import SoftwareSelector from "@/components/add project/SoftwareSelector";
+import TagSelector from "@/components/add project/TagSelector";
+import VisibilitySelector from "@/components/add project/VisibilitySelector";
+import PublishActions from "@/components/add project/PublishActions";
+import ProjectLivePreview from "@/components/add project/ProjectLivePreview";
+import { useUser } from "@/hooks/AuthContext";
 
 
 export default function CreateProjectPage() {
-    const [uploadState, setUploadState] = useState({ active: false, progress: 0, finished: false });
-    const [showConfirmation, setShowConfirmation] = useState(false);
+    const router = useRouter();
+    const [error, setError] = useState<string | null>(null);
+    const [progress, setProgress] = useState<UploadProgress>({ percentage: 0, isUploading: false });
+    const {user, token} = useUser(); 
+    console.log(token);
 
     const methods = useForm<ProjectFormData>({
         resolver: zodResolver(projectSchema),
         defaultValues: {
-        title: '',
-        category: '',
-        projectType: '',
-        year: '2026',
-        location: '',
-        university: '',
-        overview: '',
+        title: "",
+        category: "",
+        projectType: "",
+        year: new Date().getFullYear().toString(),
+        location: "",
+        university: "",
+        teamMembers: "",
+        clientName: "",
+        overview: "",
+        designConcept: "",
+        materialsUsed: "",
+        coverImage: null,
+        galleryImages: [],
         softwareUsed: [],
         tags: [],
-        visibility: 'PUBLIC'
+        visibility: "PUBLIC",
         },
-        mode: 'onTouched'
     });
 
-    const runAssetUploadSimulation = () => {
-        setUploadState({ active: true, progress: 0, finished: false });
-        const interval = setInterval(() => {
-        setUploadState((prev) => {
-            if (prev.progress >= 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-                setUploadState({ active: false, progress: 100, finished: true });
-            }, 800);
-            return { ...prev, progress: 100, finished: true };
+    const onSubmit = async (data: ProjectFormData) => {  
+        
+        setError(null);
+        setProgress({ percentage: 0, isUploading: true });
+
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+            if (key === "coverImage" && value) {
+                formData.append("coverImage", value);
+            } else if (key === "galleryImages" && Array.isArray(value)) {
+                value.forEach((file) => formData.append("galleryImages", file));
+            } else if (Array.isArray(value)) {
+                value.forEach((item) => formData.append(`${key}[]`, item));
+            } else if (value !== undefined && value !== null) {
+                formData.append(key, value as string);
             }
-            return { ...prev, progress: prev.progress + 20 };
         });
-        }, 150);
-    };
 
-    const handlePublishExecution = async (data: ProjectFormData) => {
-        setShowConfirmation(false);
-        runAssetUploadSimulation();
-    };
-
-    const attemptTriggerValidation = async () => {
-        const isFormClean = await methods.trigger();
-        if (isFormClean) {
-        setShowConfirmation(true);
+        try {
+            await api.post("/project/add-project", formData, {
+                headers: { 
+                    "Content-Type": "multipart/form-data", 
+                    Authorization: token 
+                },
+                onUploadProgress: (event) => {
+                    if (event.total) {
+                        const percentage = Math.round((event.loaded * 100) / event.total);
+                        setProgress((prev) => ({ ...prev, percentage }));
+                    }
+                },
+            });
+            methods.reset();
+            router.push("/dashboard/my-projects"); 
+        } catch (err: any) { 
+            setError(err.response?.data?.message || err.message || "An unexpected network error occurred.");
+            setProgress({ percentage: 0, isUploading: false });
+        } finally{
+            setProgress({ percentage: 0, isUploading: false });
         }
     };
 
     return (
-        <main className="min-h-screen bg-slate-900 pb-28 selection:bg-blue-600/10 antialiased">
-            <FormProvider {...methods}>
-                <form onSubmit={methods.handleSubmit(handlePublishExecution)} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
+        <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950 py-12 px-4 sm:px-6 lg:px-8 text-neutral-900 dark:text-white">
+            <div className="max-w-7xl mx-auto">
+                <header className="mb-10 border-b border-neutral-200 pb-6">
+                    <h1 className="text-3xl font-light tracking-tight">Add New Project</h1>
+                    <p className="text-sm text-neutral-500 dark:text-neutral-300 mt-1">Publish a project architectural case study to your profile.</p>
+                </header>
 
-                    <CreateProjectHeader />
-
-                    {Object.keys(methods.formState.errors).length > 0 && (
-                        <div className="p-3 bg-red-50 border border-red-100 rounded-xl text-red-700 flex items-center gap-2 text-xs font-semibold">
-                            <AlertCircle size={14} className="shrink-0" />
-                            <span>Form matrix validation failed. Verify required structural fields before committing changes.</span>
-                        </div>
-                    )}
-
-                    {/* Two-Column Responsive Workspace Grid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                        
-                        {/* Left Hand Core Form Engine Column */}
-                        <div className="lg:col-span-7 space-y-6">
+                <FormProvider {...methods}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+                        <div className="lg:col-span-2 space-y-8">
+                            {error && (
+                                <div className="p-4 bg-red-50 border-l-2 border-red-500 text-sm text-red-700 rounded-r-md">
+                                    {error}
+                                </div>
+                            )}
                             <ProjectInformation />
+                            <CategorySelector />
                             <ProjectMediaUpload />
+                            <ProjectGallery />
                             <ProjectDetails />
-                            <SoftwareSelector />
-                            <TagSelector />
+                            <SoftwareSelector /> 
                             <VisibilitySelector />
+                            <PublishActions progress={progress} />
                         </div>
-
-
-                        <div className="lg:col-span-5">
-                            <ProjectPreview />
+                        
+                        <div className="lg:col-span-1 lg:sticky lg:top-20">
+                            <ProjectLivePreview />
                         </div>
-                    </div>
-
-                    {/* Bottom Execution Bar Control Node */}
-                    <PublishActions 
-                        isSubmitting={uploadState.active} 
-                        onOpenConfirmation={attemptTriggerValidation} 
-                    />
-
-                    {/* Publication Confirmation Modal Block */}
-                    {showConfirmation && (
-                        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-                            <div className="w-full max-w-sm bg-white rounded-2xl border border-slate-200 p-5 shadow-md space-y-4">
-                                <div className="space-y-1">
-                                    <h4 className="text-sm font-bold text-slate-900">Confirm System Publication</h4>
-                                    <p className="text-xs text-slate-400 font-light leading-relaxed">This action deploys your project assets to the index registry. Ensure all calculations and vector assets are accurate.</p>
-                                </div>
-                                <div className="flex justify-end gap-2 text-xs font-semibold">
-                                    <button type="button" onClick={() => setShowConfirmation(false)} className="px-3 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">Cancel</button>
-                                    <button type="submit" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-3xs transition-colors">Confirm Deploy</button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Asset Transfer Stream Monitor Component */}
-                    {uploadState.active && (
-                        <UploadProgress progress={uploadState.progress} isComplete={uploadState.finished} />
-                    )}
-
-                </form>
-            </FormProvider>
+                    </form>
+                </FormProvider>
+            </div>
         </main>
     );
 }

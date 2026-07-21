@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Check, Info, Landmark, Layers3, Cpu } from "lucide-react";
-import { Country } from "@/types/project";
+import { Country } from "@/types/publicProject";
 
 interface FilterSidebarProps {
     selectedSoftwares: string[];

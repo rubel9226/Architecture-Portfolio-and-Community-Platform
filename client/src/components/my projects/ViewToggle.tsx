@@ -10,7 +10,6 @@ export default function ViewToggle() {
   const triggers = [
     { id: 'grid' as DashboardViewMode, icon: LayoutGrid },
     { id: 'list' as DashboardViewMode, icon: List },
-    { id: 'table' as DashboardViewMode, icon: TableProperties }
   ];
 
   return (

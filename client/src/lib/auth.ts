@@ -1,13 +1,18 @@
-import { client } from "@/utils/db";
+import { db } from "@/utils/db";
 import { betterAuth, object, string } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb"; 
+import { jwt } from "better-auth/plugins";
 
 
 export const auth = betterAuth({
-    database: mongodbAdapter(client),
+    database: mongodbAdapter(db),
 
     user: {
       additionalFields: { 
+        isAdmin: {
+          type: "boolean",
+          defaultValue: false,
+        },
         username: {
           type: "string",
           required: true,
@@ -42,5 +47,13 @@ export const auth = betterAuth({
         clientId: process.env.GOOGLE_CLIENT_ID as string, 
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       }
-    }, 
+    },
+    secret: process.env.BETTER_AUTH_SECRET,
+    plugins: [
+      jwt({
+        jwt: {
+            expirationTime: "7d",
+        }
+      }), 
+    ]
 });

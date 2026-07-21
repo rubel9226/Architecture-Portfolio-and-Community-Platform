@@ -1,8 +1,9 @@
 // context/ProjectsContext.tsx
 'use client';
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import { DashboardViewMode, ProjectVisibility, Project } from '@/types/myProject'; 
-import { mockProjects } from '@/data/my project/projects';
+import { useUser } from "@/hooks/AuthContext";
+
 
 interface ToastState {
     show: boolean;
@@ -37,12 +38,19 @@ interface ProjectsContextType {
     toast: ToastState;
     triggerToast: (message: string, type: 'success' | 'error') => void;
     dismissToast: () => void;
+    togglePortfolioProject: (id: string) => void;
 }
 
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
 
 export function ProjectsProvider({ children }: { children: React.ReactNode }) {
-    const [projects, setProjects] = useState<Project[]>(mockProjects);
+    const data = useUser();
+    const mockProjects = data?.projects
+
+    console.log(mockProjects, 'mok data');
+
+
+    const [projects, setProjects] = useState<Project[]>([]);
     const [viewMode, setViewMode] = useState<DashboardViewMode>('grid');
     const [searchQuery, setSearchQuery] = useState('');
     const [visibilityFilter, setVisibilityFilter] = useState('ALL');
@@ -51,6 +59,12 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [deleteId, setDeleteId] = useState<string | null>(null);
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
+
+    useEffect(() => {
+    if(mockProjects){
+        setProjects(mockProjects);
+    }
+}, [mockProjects]);
 
     const triggerToast = (message: string, type: 'success' | 'error') => {
         setToast({ show: true, message, type });
@@ -75,21 +89,21 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
 
     const toggleSelectAll = () => {
         if (selectedIds.length === filteredProjects.length) {
-        setSelectedIds([]);
+            setSelectedIds([]);
         } else {
-        setSelectedIds(filteredProjects.map(p => p.id));
+            setSelectedIds(filteredProjects.map(p => p._id));
         }
     };
 
     const clearSelection = () => setSelectedIds([]);
 
     const pinProject = (id: string) => {
-        setProjects(prev => prev.map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p));
+        setProjects(prev => prev.map(p => p._id === id ? { ...p, isPinned: !p.isPinned } : p));
         triggerToast('Project architectural pinning state modified.', 'success');
     };
 
     const duplicateProject = (id: string) => {
-        const target = projects.find(p => p.id === id);
+        const target = projects.find(p => p._id === id);
         if (target) {
         const duplicate: Project = {
             ...target,
@@ -104,13 +118,13 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     };
 
     const archiveProject = (id: string) => {
-        setProjects(prev => prev.map(p => p.id === id ? { ...p, isArchived: !p.isArchived } : p));
+        setProjects(prev => prev.map(p => p._id === id ? { ...p, isArchived: !p.isArchived } : p));
         triggerToast('Project moved to archival registry index.', 'success');
     };
 
     const executeDelete = () => {
         if (deleteId) {
-        setProjects(prev => prev.filter(p => p.id !== deleteId));
+        setProjects(prev => prev.filter(p => p._id !== deleteId));
         setSelectedIds(prev => prev.filter(x => x !== deleteId));
         setDeleteId(null);
         triggerToast('Architectural project deleted permanently.', 'success');
@@ -118,26 +132,44 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     };
 
     const bulkDelete = () => {
-        setProjects(prev => prev.filter(p => !selectedIds.includes(p.id)));
+        setProjects(prev => prev.filter(p => !selectedIds.includes(p._id)));
         setSelectedIds([]);
         triggerToast('Selected project collection cleared from index.', 'success');
     };
 
     const bulkChangeVisibility = (visibility: ProjectVisibility) => {
-        setProjects(prev => prev.map(p => selectedIds.includes(p.id) ? { ...p, visibility } : p));
+        setProjects(prev => prev.map(p => selectedIds.includes(p._id) ? { ...p, visibility } : p));
         setSelectedIds([]);
         triggerToast(`Bulk items modified to target access tier: ${visibility}`, 'success');
     };
 
+    const togglePortfolioProject = (id:string) => {
+        setProjects(prev =>
+            prev.map(project =>
+                project._id === id
+                ? {
+                    ...project,
+                    isPortfolio: !project.isPortfolio
+                }
+                : project
+            )
+        );
+
+        triggerToast(
+            'Portfolio status updated successfully.',
+            'success'
+        );
+    };
+
     return (
         <ProjectsContext.Provider value={{
-        projects: filteredProjects, viewMode, setViewMode, searchQuery, setSearchQuery,
-        visibilityFilter, setVisibilityFilter, categoryFilter, setCategoryFilter, sortBy, setSortBy,
-        selectedIds, toggleSelectProject, toggleSelectAll, clearSelection, pinProject, duplicateProject,
-        archiveProject, bulkDelete, bulkChangeVisibility, deleteId, setDeleteId, executeDelete,
-        toast, triggerToast, dismissToast
+            projects: filteredProjects, viewMode, setViewMode, searchQuery, setSearchQuery,
+            visibilityFilter, setVisibilityFilter, categoryFilter, setCategoryFilter, sortBy, setSortBy,
+            selectedIds, toggleSelectProject, toggleSelectAll, clearSelection, pinProject, duplicateProject,
+            archiveProject, bulkDelete, bulkChangeVisibility, deleteId, setDeleteId, executeDelete,
+            toast, triggerToast, dismissToast, togglePortfolioProject
         }}>
-        {children}
+            {children}
         </ProjectsContext.Provider>
     );
 }
@@ -146,4 +178,4 @@ export function useProjects() {
     const context = useContext(ProjectsContext);
     if (!context) throw new Error('useProjects must be inside ProjectsProvider');
     return context;
-    }
+}

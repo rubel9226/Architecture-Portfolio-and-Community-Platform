@@ -4,7 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, GraduationCap, MapPin, ExternalLink, Calendar, AppWindow, Cpu } from "lucide-react";
-import { Project } from "@/types/project";
+import { Project } from "@/types/publicProject";
+
 
 interface ProjectQuickPreviewProps {
   project: Project | null;
