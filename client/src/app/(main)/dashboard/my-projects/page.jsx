@@ -1,18 +1,14 @@
 'use client'
-
-import { ProjectsProvider } from '../../../hooks/MyProjectsContext';
-import ProjectsHeader from '../../../components/my projects/ProjectsHeader';
-import ProjectStats from '../../../components/my projects/ProjectsStats';
-import FilterBar from '../../../components/my projects/FilterBar';
-import ProjectGrid from '../../../components/my projects/ProjectGrid';
-import Pagination from '../../../components/my projects/Pagination';
-import BulkActionBar from '../../../components/my projects/BulkActionBar';
-import DeleteProjectModal from '../../../components/my projects/DeleteProjectModal';
-import ToastNotification from '../../../components/my projects/ToastNotification';
+import { ProjectsProvider } from './../../../../hooks/MyProjectsContext';
+import ProjectsHeader from './../../../../components/my projects/ProjectsHeader';
+import ProjectStats from './../../../../components/my projects/ProjectsStats';
+import FilterBar from './../../../../components/my projects/FilterBar';
+import ProjectGrid from './../../../../components/my projects/ProjectGrid';
+import Pagination from './../../../../components/my projects/Pagination';
+import BulkActionBar from './../../../../components/my projects/BulkActionBar';
+import DeleteProjectModal from './../../../../components/my projects/DeleteProjectModal';
+import ToastNotification from './../../../../components/my projects/ToastNotification';
 import { useUser } from '@/hooks/AuthContext';
-import api from './../../../lib/api';
-// import { auth } from '@/lib/auth';
-// import { headers } from 'next/headers';
 
 export default function MyProjectsDashboard() {
  

@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
-import SectionActions from "./SectionActions";
 
 interface SkillsProps {
     skills: string[];
@@ -123,8 +122,6 @@ export default function Skills({ skills }: SkillsProps) {
                     </div>
                 </motion.div>
             </div>
-
-            <SectionActions section="skills" />
         </section>
     );
 }

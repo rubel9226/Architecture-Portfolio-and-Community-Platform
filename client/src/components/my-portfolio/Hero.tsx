@@ -108,33 +108,56 @@ const Hero = ({userData}) => {
                         />
                     </div>
 
-                    {/* Floating Tech Icons */}
                     <div className="absolute inset-0 pointer-events-none">
+                        {/* AutoCAD */}
                         <div
-                            className="absolute top-10 left-10 w-12 h-12 bg-slate-850 rounded-xl flex items-center justify-center border border-white/10 animate-float shadow-xl bg-slate-800/80 backdrop-blur-sm"
+                            className="absolute top-8 left-8 w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 bg-slate-800/80 backdrop-blur-sm shadow-xl animate-float"
                             style={{ animationDelay: "0.5s" }}
                         >
-                            <span className="text-blue-400 text-xl font-bold">⚛️</span>
+                            <span className="text-red-400 text-xs font-bold">AutoCAD</span>
                         </div>
+
+                        {/* Revit */}
                         <div
-                            className="absolute top-0 right-20 w-12 h-12 bg-slate-850 rounded-xl flex items-center justify-center border border-white/10 animate-float shadow-xl bg-slate-800/80 backdrop-blur-sm"
+                            className="absolute top-6 right-12 w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 bg-slate-800/80 backdrop-blur-sm shadow-xl animate-float"
                             style={{ animationDelay: "1.2s" }}
                         >
-                            <span className="text-green-400 text-xl font-bold">🍃</span>
+                            <span className="text-blue-400 text-xs font-bold">Revit</span>
                         </div>
+
+                        {/* SketchUp */}
                         <div
-                            className="absolute bottom-20 left-0 w-12 h-12 bg-slate-850 rounded-xl flex items-center justify-center border border-white/10 animate-float shadow-xl bg-slate-800/80 backdrop-blur-sm"
+                            className="absolute bottom-8 left-6 w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 bg-slate-800/80 backdrop-blur-sm shadow-xl animate-float"
                             style={{ animationDelay: "0.8s" }}
                         >
-                            <span className="text-yellow-400 text-xl font-bold">JS</span>
+                            <span className="text-amber-400 text-xs font-bold">SketchUp</span>
                         </div>
+
+                        {/* Lumion */}
                         <div
-                            className="absolute bottom-0 right-10 w-12 h-12 bg-slate-850 rounded-xl flex items-center justify-center border border-white/10 animate-float shadow-xl bg-slate-800/80 backdrop-blur-sm"
+                            className="absolute bottom-8 right-8 w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 bg-slate-800/80 backdrop-blur-sm shadow-xl animate-float"
                             style={{ animationDelay: "1.5s" }}
                         >
-                            <span className="text-white text-xl font-bold">N</span>
+                            <span className="text-green-400 text-xs font-bold">Lumion</span>
+                        </div>
+
+                        {/* Rhino */}
+                        <div
+                            className="absolute top-1/2 left-[-40px] -translate-y-1/2 w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 bg-slate-800/80 backdrop-blur-sm shadow-xl animate-float"
+                            style={{ animationDelay: "2s" }}
+                        >
+                            <span className="text-purple-400 text-xs font-bold">Rhino</span>
+                        </div>
+
+                        {/* V-Ray */}
+                        <div
+                            className="absolute top-1/2 right-[-40px] -translate-y-1/2 w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 bg-slate-800/80 backdrop-blur-sm shadow-xl animate-float"
+                            style={{ animationDelay: "2.5s" }}
+                        >
+                            <span className="text-orange-400 text-xs font-bold">V-Ray</span>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>

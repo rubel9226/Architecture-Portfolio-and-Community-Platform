@@ -10,7 +10,12 @@ import Services from "./Services";
 import Projects from "./Projects";
 import Contact from "./Contact";
 import CustomCursor from "./CustomCursor";
-export default function MyPortfolioPage({userData}) {
+import NoProjects from "./NoProjects"; 
+import { NavbarPortfolio } from './Navbar';
+import Footer from './Footer';
+export default function MyPortfolioPage({userData, projects}) {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState("home");
     const [isLoading, setIsLoading] = useState(true);
     const mainScopeRef = useRef(null);
     
@@ -21,33 +26,32 @@ export default function MyPortfolioPage({userData}) {
       return () => clearTimeout(timer);
     }, []);
 
-    // Global Page Level Scroll Spy Observer
-    // useEffect(() => {
-    //   if (isLoading) return;  
-    
-    //   const sections = document.querySelectorAll("section[id]");
-    //   const observerOptions = {
-    //     root: null,
-    //         rootMargin: "-30% 0px -55% 0px",
-    //         threshold: 0,
-    //   };  
+      // Global Page Level Scroll Spy Observer
+    useEffect(() => {
+        if (isLoading) return;
+        
+        const sections = document.querySelectorAll("section[id]");
+        const observerOptions = {
+        root: null,
+        rootMargin: "-30% 0px -55% 0px",
+        threshold: 0,
+        };
 
-    //   const observer = new IntersectionObserver((entries) => {
-    //     entries.forEach((entry) => {
-    //       if (entry.isIntersecting) {
-    //         setActiveSection(entry.target.id);
-    //       }
-    //     });
-    //   }, observerOptions);  
+        const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+            }
+        });
+        }, observerOptions);
 
-    //   sections.forEach((section) => observer.observe(section));  
+        sections.forEach((section) => observer.observe(section));
 
-    //   return () => {
-    //     sections.forEach((section) => observer.unobserve(section));
-    //   };
-    // }, [isLoading]);
+        return () => {
+        sections.forEach((section) => observer.unobserve(section));
+        };
+    }, [isLoading]);
 
-    // GSAP ScrollTrigger Global Initialization/Scoping
     useEffect(() => {
           if (isLoading) return;  
 
@@ -80,7 +84,7 @@ export default function MyPortfolioPage({userData}) {
 
     return (
         <>
-            {/* <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait">
                 {isLoading && (
                     <motion.div
                         key="loader"
@@ -109,18 +113,19 @@ export default function MyPortfolioPage({userData}) {
                     />
                     </motion.div>
                 )}
-            </AnimatePresence> */}
+            </AnimatePresence>
           
             <div ref={mainScopeRef} className="min-h-screen text-slate-100 bg-[#0a0f1a] selection:bg-blue-500/30 overflow-x-hidden relative">
                 {/* Cinematic Background Ambient Blurs */}
                 <div className="absolute top-0 left-1/4 w-125 h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
                 <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-pink-600/5 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse" style={{ animationDuration: '12s' }} />
             
-                {/* <Navbar 
+                <NavbarPortfolio 
                     activeSection={activeSection} 
                     mobileMenuOpen={mobileMenuOpen} 
-                    setMobileMenuOpen={setMobileMenuOpen} 
-                />   */}
+                    setMobileMenuOpen={setMobileMenuOpen}
+                    name={userData?.name}
+                />  
 
                 <main>
                     <Hero userData={userData} /> 
@@ -137,14 +142,18 @@ export default function MyPortfolioPage({userData}) {
                     </div> */}
                     
                     <div data-scroll-reveal>
-                        <Projects userData={userData} />
+                        {
+                            projects.length === 0 
+                            ? <NoProjects />
+                            : <Projects projects={projects} />
+                        }
                     </div> 
                     
                     <div data-scroll-reveal>
                         <Contact userData={userData} />
                     </div>                    
                 </main> 
-                {/* <Footer userData={userData} />  */}
+                <Footer name={userData?.name} /> 
                 <CustomCursor />
             </div>
         </>

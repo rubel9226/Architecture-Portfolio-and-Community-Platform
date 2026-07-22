@@ -16,6 +16,7 @@ interface NavbarProps {
       name: string;
       email: string;
       image?: string | null;
+      id?: string | null
       [key: string]: any;
     };
   } | null;
@@ -32,6 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({session}) => {
     name: session?.user?.name || '',
     email: session?.user?.email || '',
     avatarUrl: session?.user?.image || '',
+    id: session?.user?.id
   }; 
 
   const isLinkActive = (href: string) => pathname === href;

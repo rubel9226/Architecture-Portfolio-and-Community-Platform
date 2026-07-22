@@ -15,7 +15,8 @@ import {
     MoreVertical,
     Globe,
     Lock,
-    EyeOff
+    EyeOff,
+    EthernetPort
 } from 'lucide-react';
 
 import { fadeUpMyProject } from '@/utils/animations';
@@ -28,7 +29,16 @@ import { useRouter } from 'next/navigation';
 
 
 export default function ProjectCard({ project, layoutMode }: { project: Project; layoutMode: DashboardViewMode; }) {
-    const { selectedIds, toggleSelectProject, pinProject, duplicateProject, archiveProject, setDeleteId, togglePortfolioProject } = useProjects();
+    const { 
+        selectedIds, 
+        toggleSelectProject, 
+        pinProject, 
+        duplicateProject, 
+        archiveProject, 
+        setDeleteId, 
+        togglePortfolioProject, 
+        deleteProject 
+    } = useProjects();
     const {token} = useUser();
     const router = useRouter();
     console.log(project?.isPortfolio, 'project');
@@ -56,7 +66,7 @@ export default function ProjectCard({ project, layoutMode }: { project: Project;
 
     const handlePortfolioProject = async (id) => {
         try{
-            const res = await api.put(`/project/portfolio/${id}`,{}, {
+            await api.put(`/project/portfolio/${id}`,{}, {
                 headers: {
                     Authorization: token
                 }
@@ -67,19 +77,6 @@ export default function ProjectCard({ project, layoutMode }: { project: Project;
         }
     }
     
-    const handlePortfolioProjectDelete = async (id) => {
-        try{
-            const res = await api.put(`/project/portfolio-delete/${id}`,{}, {
-                headers: {
-                    Authorization: token
-                }
-            });
-            togglePortfolioProject(id)
-        }catch(error){
-            console.log(error);
-        }
-    }
-
     return (
         <motion.div
             variants={fadeUpMyProject}
@@ -261,7 +258,7 @@ export default function ProjectCard({ project, layoutMode }: { project: Project;
 
                             <button
                                 onClick={()=>{
-                                    handlePortfolioProjectDelete(project._id);
+                                    deleteProject(project._id);
                                     setMenuOpen(false);
                                 }} className=" w-full flex items-center gap-2 px-3 py-2 text-red-400 hover:bg-red-500/10 rounded-lg "
                             >

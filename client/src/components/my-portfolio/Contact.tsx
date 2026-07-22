@@ -2,10 +2,13 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SectionActions from './SectionActions';
+import Link from "next/link";
+import { PlusCircle } from "lucide-react";
 
 
-const Contact = () => {
+const Contact = ({userData}) => {
     const [copied, setCopied] = useState("");
+    console.log(userData, 'contact')
     
     const [formData, setFormData] = useState({
         name: "",
@@ -103,7 +106,7 @@ const Contact = () => {
                                 <div>
                                     <p className="text-sm text-slate-500">Email</p>
                                     <p className="font-medium text-slate-200 group-hover:text-blue-400 transition-colors">
-                                        mdrubelhossen9226@gmail.com
+                                        {userData?.email}
                                     </p>
                                     {
                                         copied === "mdrubelhossen9226@gmail.com" && (
@@ -119,7 +122,7 @@ const Contact = () => {
                                 <div>
                                     <p className="text-sm text-slate-500">Phone</p>
                                     <p className="font-medium text-slate-200 group-hover:text-blue-400 transition-colors">
-                                        +880 1307743888
+                                        {userData?.phone}
                                     </p>
                                     {
                                         copied === "+8801307743888" && (
@@ -134,11 +137,11 @@ const Contact = () => {
                                 <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 group-hover:bg-blue-900/30 transition-all duration-300">📍</div>
                                 <div>
                                     <p className="text-sm text-slate-500">Address</p>
-                                    <p className="font-medium text-slate-200 group-hover:text-blue-400 transition-colors">
-                                        Agran, Baraigram, Natore.
+                                    <p className="font-medium text-slate-200 group-hover:text-blue-400 transition-colors capitalize">
+                                        {userData?.address}
                                     </p>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     </div>
 
@@ -257,10 +260,6 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
-
-            <SectionActions
-                section="contact"
-            />
         </section>
     );
 };

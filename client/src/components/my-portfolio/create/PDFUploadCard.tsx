@@ -8,7 +8,7 @@ interface PDFUploadProps {
   onRemove: () => void;
 }
 
-export const PDFUploadCard: React.FC<PDFUploadProps> = ({ file, onUpload, onRemove }) => {
+export const PDFUploadCard: React.FC<PDFUploadProps> = ({ user, file, onUpload, onRemove }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (

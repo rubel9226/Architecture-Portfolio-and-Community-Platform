@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, } from "react";
+import { useEffect, useState, } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Briefcase, X, FileText, User, Image as ImageIcon, Code2, Mail, MapPin, Phone, Sparkles, Check, Loader2, Moon, Sun, } from "lucide-react";
 import api from "@/lib/api";
@@ -10,7 +10,7 @@ import { PDFUploadCard } from "./create/PDFUploadCard";
 import { TagInput } from "./create/TagInputProps";
 
 
-export default function PortfolioCreatorDashboard() {
+export default function PortfolioCreatorPage({userData, user}) {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -28,6 +28,7 @@ export default function PortfolioCreatorDashboard() {
     const [aboutImagePreview, setAboutImgPreview] = useState<string | null>("");
     const [isHeroUploading, setIsHeroUploading] = useState(false);
     const [resume, setResume] = useState<File | null>(null);
+    const [resumePreview, setResumePreview] = useState<File | null>(null);
 
     // Tags
     const [skills, setSkills] = useState<string[]>([]); 
@@ -39,7 +40,25 @@ export default function PortfolioCreatorDashboard() {
 
     // Hooks
     const {token} = useUser();
-
+    
+    useEffect(() => {
+        if(userData){
+            setFullName(userData?.name);
+            setRoles(userData?.roles);
+            setHeroDescription(userData?.heroDescription);
+            setAboutBio(userData?.aboutDescription);
+            setHeroImgPreview(userData?.heroImage);
+            setAboutImgPreview(userData?.aboutImage);
+            setResumePreview(userData?.resume);
+            setSkills(userData?.skills);
+            setEmail(userData?.email);
+            setPhone(userData?.phone);
+            setAddress(userData?.address);
+        } else if(user){
+            setFullName(user?.name);
+            setEmail(user?.email);
+        }
+    }, [user, userData])
 
     // Handlers
     const handleHeroUpload = (file: File) => {
@@ -58,6 +77,7 @@ export default function PortfolioCreatorDashboard() {
 
     const handlePdfUpload = (file: File) => {
         setResume(file);
+        setResumePreview(URL.createObjectURL(file));
     };
 
     const handleSave = async () => {
@@ -146,17 +166,17 @@ export default function PortfolioCreatorDashboard() {
                                 type="button"
                                 onClick={handleSave}
                                 disabled={isSaving}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-medium rounded-xl shadow-sm transition-all duration-150 disabled:opacity-70 active:scale-[0.98]"
+                                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-zinc-900 text-xs font-medium rounded-xl shadow-sm transition-all duration-150 disabled:opacity-70 active:scale-[0.98] cursor-pointer"
                             >
                                 {isSaving ? (
                                     <>
                                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                        Saving...
+                                         {userData ? 'Updating...' : 'Saving...'}
                                     </>
                                     ) : (
                                     <>
                                         <Check className="w-3.5 h-3.5" />
-                                        Save Portfolio
+                                        {userData ? 'Update Portfolio' : 'Save Portfolio'}
                                     </>
                                 )}
                             </button>
@@ -278,6 +298,7 @@ export default function PortfolioCreatorDashboard() {
 
                         <div className="pt-2">
                             <PDFUploadCard
+                                user={userData}
                                 file={resume}
                                 onUpload={handlePdfUpload}
                                 onRemove={() => setResume(null)}
@@ -303,27 +324,53 @@ export default function PortfolioCreatorDashboard() {
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                            {/* Left: About image preview thumbnail */}
-                            <div className="lg:col-span-1 space-y-2">
-                                <span className="text-xs font-medium text-slate-700 dark:text-zinc-300">
-                                Featured About Image
-                                </span>
-                                <div className="h-52 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-900 flex items-center justify-center">
-                                    {aboutImagePreview ? (
-                                        <img
-                                        src={aboutImagePreview}
-                                        alt="About Preview"
-                                        className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <div className="text-center p-4">
-                                        <ImageIcon className="w-8 h-8 text-slate-400 dark:text-zinc-600 mx-auto mb-2" />
-                                        <p className="text-xs text-slate-500 dark:text-zinc-500">
-                                            No About image uploaded yet.
-                                        </p>
-                                        </div>
-                                    )}
+      {/* Left: About image preview thumbnail */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="lg:col-span-1 space-y-2">
+                                    <span className="text-xs font-medium text-slate-700 dark:text-zinc-300">
+                                        Featured About Image
+                                    </span>
+                                    <div className="h-52 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-900 flex items-center justify-center">
+                                        {aboutImagePreview ? (
+                                            <img
+                                                src={aboutImagePreview}
+                                                alt="About Preview"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="text-center p-4">
+                                                <ImageIcon className="w-8 h-8 text-slate-400 dark:text-zinc-600 mx-auto mb-2" />
+                                                <p className="text-xs text-slate-500 dark:text-zinc-500">
+                                                    No About image uploaded yet.
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
+
+
+                                <div className="lg:col-span-1 space-y-2">
+                                    <span className="text-xs font-medium text-slate-700 dark:text-zinc-300">
+                                        Resume pdf
+                                    </span>
+                                    <div className="h-52 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 bg-slate-100 dark:bg-zinc-900 flex items-center justify-center">
+                                        {resumePreview ? (
+                                            <iframe
+                                            src={resumePreview}
+                                            alt="reseume preview"
+                                            className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="text-center p-4">
+                                                <ImageIcon className="w-8 h-8 text-slate-400 dark:text-zinc-600 mx-auto mb-2" />
+                                                <p className="text-xs text-slate-500 dark:text-zinc-500">
+                                                    No About image uploaded yet.
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
                             </div>
 
                             {/* Right: Detailed bio textarea */}
@@ -461,12 +508,12 @@ export default function PortfolioCreatorDashboard() {
                         {isSaving ? (
                             <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                                Saving Changes...
+                                 {userData? 'Updating Change...' : 'Saving Changes...'}
                             </>
                         ) : (
                             <>
                             <Check className="w-4 h-4" />
-                                Save Portfolio
+                                 {userData? 'Update Portfolio' : "Save Portfolio"}
                             </>
                         )}
                         </button>

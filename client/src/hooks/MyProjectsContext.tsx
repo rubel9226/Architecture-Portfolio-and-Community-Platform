@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import { DashboardViewMode, ProjectVisibility, Project } from '@/types/myProject'; 
 import { useUser } from "@/hooks/AuthContext";
+import api from '@/lib/api';
 
 
 interface ToastState {
@@ -39,13 +40,16 @@ interface ProjectsContextType {
     triggerToast: (message: string, type: 'success' | 'error') => void;
     dismissToast: () => void;
     togglePortfolioProject: (id: string) => void;
+    deleteProject: (id: string) => void;
 }
 
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
 
 export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     const data = useUser();
-    const mockProjects = data?.projects
+    const mockProjects = data?.projects;
+
+    const token = data?.token;
 
     console.log(mockProjects, 'mok data');
 
@@ -161,13 +165,32 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         );
     };
 
+    const deleteProject = async (id: string) => {
+        try {
+            await api.delete(`/project/delete/${id}`, {
+                headers: {
+                    Authorization: token
+                }
+            });
+
+            setProjects(prev => prev.filter(project => project._id !== id));
+
+            setSelectedIds(prev => prev.filter(projectId => projectId !== id));
+
+            triggerToast( 'Project deleted successfully.', 'success');
+        } catch(error) { 
+            console.log(error); 
+            triggerToast( error?.response?.data?.message, 'error' );
+        }
+    };
+
     return (
         <ProjectsContext.Provider value={{
             projects: filteredProjects, viewMode, setViewMode, searchQuery, setSearchQuery,
             visibilityFilter, setVisibilityFilter, categoryFilter, setCategoryFilter, sortBy, setSortBy,
             selectedIds, toggleSelectProject, toggleSelectAll, clearSelection, pinProject, duplicateProject,
             archiveProject, bulkDelete, bulkChangeVisibility, deleteId, setDeleteId, executeDelete,
-            toast, triggerToast, dismissToast, togglePortfolioProject
+            toast, triggerToast, dismissToast, togglePortfolioProject, deleteProject
         }}>
             {children}
         </ProjectsContext.Provider>

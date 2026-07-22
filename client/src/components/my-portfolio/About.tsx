@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import SectionActions from './SectionActions';
-import AddItemModal from './AddModal';
 import Link from 'next/link';
 import { Pen, Plus, Trash2 } from 'lucide-react';
 
@@ -36,23 +35,6 @@ const About = ({userData}) => {
                     </div>
                 </div>
             </div>
-
-            <div className="flex justify-center gap-4 mt-14">
-                <button
-                    onClick={()=>{ setOpen(true) }}
-                    className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 transition"
-                >
-                    <Pen />
-                    Edit about Section
-                </button>
-            
-            </div>
-
-            <AddItemModal 
-                open={open}
-                userData={userData}
-                onClose={()=>{ setOpen(false) }}
-            />
         </section>
     );
 };

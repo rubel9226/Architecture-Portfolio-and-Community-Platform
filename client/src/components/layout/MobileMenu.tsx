@@ -18,28 +18,21 @@ interface MobileMenuProps {
   };
 }
 
-const mainNav = [
-  { name: 'Home', href: '/' },
-  { name: 'My Projects', href: '/dashboard/my-projects' },
-  { name: 'Public Projects', href: '/public-projects' },
-  { name: 'Add Projects', href: '/dashboard/add-projects' },
-];
-
-const categories = [
-  { name: 'All Projects', href: '/dashboard/explore/all' },
-  { name: 'Residential', href: '/dashboard/explore/residential' },
-  { name: 'Commercial', href: '/dashboard/explore/commercial' },
-  { name: 'Interior', href: '/dashboard/explore/interior' },
-  { name: 'Landscape', href: '/dashboard/explore/landscape' },
-  { name: 'Urban Design', href: '/dashboard/explore/urban' },
-  { name: 'Thesis', href: '/dashboard/explore/thesis' },
-];
-
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLoggedIn, user }) => {
   const pathname = usePathname();
   const [exploreOpen, setExploreOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  console.log(user, 'mobile view')
+  
+  const mainNav = [
+    { name: 'Home', href: '/' },
+    { name: 'My Projects', href: '/dashboard/my-projects' },
+    { name: 'Public Projects', href: '/public-projects' },
+    { name: 'Add Projects', href: '/dashboard/add-projects' },
+    { name: 'My Portfolio', href: `/portfolio/${user?.id}` },
+    { name: 'Add Portfolio', href: '/dashboard/portfolio' },
+  ];
+  
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -99,32 +92,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
             >
               Home
             </Link>
-
-            {/* Accordion Trigger for Explore dropdown */}
-            <div>
-              <button
-                type="button"
-                onClick={() => setExploreOpen(!exploreOpen)}
-                className="flex w-full items-center justify-between px-3 py-2.5 rounded-xl font-medium text-base text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40"
-              >
-                <span>Explore</span>
-                <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${exploreOpen ? 'rotate-180 text-blue-600' : ''}`} />
-              </button>
-              
-              <div className={`grid transition-all duration-300 ease-in-out pl-4 ${exploreOpen ? 'grid-rows-[1fr] opacity-100 mt-1 mb-2' : 'grid-rows-[0fr] opacity-0'}`}>
-                <div className="overflow-hidden flex flex-col gap-0.5">
-                  {categories.map((subItem) => (
-                    <Link
-                      key={subItem.name}
-                      href={subItem.href}
-                      className={`px-3 py-2 text-sm rounded-lg transition-colors ${pathname === subItem.href ? 'text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900'}`}
-                    >
-                      {subItem.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
 
             {mainNav.slice(1).map((item) => (
               <Link 
