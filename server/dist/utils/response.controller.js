@@ -1,0 +1,14 @@
+export const errorResponse = (res, { statusCode = 500, message = "Internal Server Error", }) => {
+    return res.status(statusCode).json({
+        success: false,
+        message,
+    });
+};
+export const successResponse = (res, { statusCode = 200, message = "Success", payload, }) => {
+    return res.status(statusCode).json({
+        success: true,
+        message,
+        payload,
+    });
+};
+//# sourceMappingURL=response.controller.js.map
