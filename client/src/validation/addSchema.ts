@@ -23,8 +23,9 @@ export const projectSchema = z.object({
     overview: z.string().min(50, "Overview must be at least 50 characters long"),
     designConcept: z.string().optional(),
     materialsUsed: z.string().optional(),
-    coverImage: fileValidation,
-    galleryImages: z.array(z.custom<File>((val) => val instanceof File)).optional().default([]),
+    coverImage: fileValidation.nullable().refine((file) => file !== null, "Image is required"),
+    // galleryImages: z.array(z.custom<File>((val) => val instanceof File)).optional().default([]),
+    galleryImages: z.array(fileValidation).default([]),
     softwareUsed: z.array(z.string()).min(1, "Select at least one software tool"),
     visibility: z.enum(["PUBLIC", "PRIVATE"]),
 });

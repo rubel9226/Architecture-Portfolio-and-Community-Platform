@@ -1,9 +1,9 @@
 // components/profile/ProfileStats.tsx
 'use client';
 import { motion } from 'framer-motion';
-import { StatisticItem } from '@/types/profile';
 import { DynamicIcon } from './DynamicIcon';
 import { staggerContainerProfile } from '@/utils/animations';
+import { StatisticItem } from '@/types';
 
 export default function ProfileStats({ stats }: { stats: StatisticItem[] }) {
   return (

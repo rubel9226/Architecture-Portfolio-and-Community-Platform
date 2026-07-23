@@ -3,8 +3,10 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { Typewriter } from "react-simple-typewriter";
+import { PortfolioData } from "@/types";
 
-const Hero = ({userData}) => {
+
+const Hero = ({ userData }: { userData: PortfolioData | null | undefined }) => {
     const heroRef = useRef(null);
     const imageRef = useRef(null);
     const contentRef = useRef(null);
@@ -30,7 +32,7 @@ const Hero = ({userData}) => {
     // Mousemove interactive parallax effect
     useEffect(() => { 
         const image = imageRef.current; 
-        const move = (e) => { 
+        const move = (e: MouseEvent) => { 
             const x = (window.innerWidth / 2 - e.clientX) / 40;
             const y = (window.innerHeight / 2 - e.clientY) / 40; 
             gsap.to(image, {

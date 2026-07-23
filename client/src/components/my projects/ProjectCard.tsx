@@ -20,22 +20,18 @@ import {
 } from 'lucide-react';
 
 import { fadeUpMyProject } from '@/utils/animations';
-import { DashboardViewMode, Project } from '@/types/myProject';
 import { useProjects } from '@/hooks/MyProjectsContext';
 import Link from 'next/link';
 import api from '@/lib/api';
 import { useUser } from '@/hooks/AuthContext';
 import { useRouter } from 'next/navigation';
+import { DashboardViewMode, Project } from '@/types';
 
 
 export default function ProjectCard({ project, layoutMode }: { project: Project; layoutMode: DashboardViewMode; }) {
+    console.log(project.visibility);
     const { 
-        selectedIds, 
-        toggleSelectProject, 
-        pinProject, 
-        duplicateProject, 
-        archiveProject, 
-        setDeleteId, 
+        selectedIds,
         togglePortfolioProject, 
         deleteProject 
     } = useProjects();
@@ -48,23 +44,24 @@ export default function ProjectCard({ project, layoutMode }: { project: Project;
     const isChecked = selectedIds.includes(project._id);
 
     const visibilityStyles = {
-        PUBLIC:
+        public:
             'bg-blue-500/10 text-blue-400 border-blue-500/20',
 
-        PRIVATE:
+        private:
             'bg-slate-700/40 text-slate-300 border-slate-600',
 
-        DRAFT:
+        unlisted:
             'bg-orange-500/10 text-orange-400 border-orange-500/20'
     };
     const visibilityIcons = {
-        PUBLIC: Globe,
-        PRIVATE: Lock,
-        DRAFT: EyeOff
+        public: Globe,
+        private: Lock,
+        unlisted: EyeOff
     };
     const VIcon = visibilityIcons[project.visibility];
 
-    const handlePortfolioProject = async (id) => {
+    const handlePortfolioProject = async (id?: string) => {
+        if (!id) return;
         try{
             await api.put(`/project/portfolio/${id}`,{}, {
                 headers: {
@@ -153,7 +150,7 @@ export default function ProjectCard({ project, layoutMode }: { project: Project;
                             {project.category}
                         </span>
                         <span className={` inline-flex items-center gap-1 px-2 py-0.5 border text-[9px] font-bold rounded
-                            ${visibilityStyles[project.visibility]}
+                            ${visibilityStyles[project?.visibility]}
                             `}
                         >
                             <VIcon size={9}/>

@@ -1,4 +1,4 @@
-import { Project } from "@/types/publicProject";
+import { Project } from "@/types";
 
 
 export const publicProjects: Project[] = [
@@ -9,13 +9,13 @@ export const publicProjects: Project[] = [
         coverImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
         category: "commercial",
         creator: {
-        name: "Alex Thorne",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
-        role: "Architectural Researcher"
+            name: "Alex Thorne",
+            avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+            role: "Architectural Researcher"
         },
         university: "Harvard GSD",
         country: "United States",
-        software: ["Revit", "Rhino", "Blender", "Lumion"],
+        softwareUsed: ["Revit", "Rhino", "Blender", "Lumion"],
         views: 12450,
         likes: 840,
         bookmarks: 320,

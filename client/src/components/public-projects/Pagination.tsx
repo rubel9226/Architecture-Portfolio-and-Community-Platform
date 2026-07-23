@@ -1,60 +1,61 @@
+
 "use client";
 
-import React from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
-interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
+interface Props {
+  currentPage: number;
+  totalPages: number;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
-  currentPage,
-  totalPages,
-  onPageChange
-}) => {
-    const getPageNumbers = () => {
-        const pages = [];
-        for (let i = 1; i <= totalPages; i++) {
-            pages.push(i);
-        }
-        return pages;
-    };
+export function Pagination({
+    currentPage,
+    totalPages,
+    }: Props) {
+    if (totalPages <= 1) return null;
+
+    const pages = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+    }
 
     return (
-        <div className="flex items-center justify-between border-t border-neutral-900 pt-6 mt-12 w-full">
-            <button
-                onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-neutral-800 text-neutral-400 hover:text-white disabled:opacity-30 disabled:hover:text-neutral-400 font-medium text-xs transition-all cursor-pointer"
-            >
-                <ArrowLeft size={14} /> Previous
-            </button>
+        <div className="flex justify-center gap-2 mt-12 flex-wrap">
 
-            <div className="flex items-center gap-1.5">
-                {getPageNumbers().map((num) => (
-                <button
-                    key={num}
-                    onClick={() => onPageChange(num)}
-                    className={`h-9 w-9 rounded-xl flex items-center justify-center text-xs font-medium font-mono transition-all cursor-pointer ${
-                    num === currentPage 
-                        ? "bg-white text-black" 
-                        : "text-neutral-400 hover:bg-neutral-900"
-                    }`}
-                >
-                    {num}
-                </button>
-                ))}
-            </div>
+        <Link
+            href={`/projects?page=${currentPage - 1}`}
+            className={`btn btn-outline ${
+            currentPage === 1 &&
+            "pointer-events-none opacity-40"
+            }`}
+        >
+            Previous
+        </Link>
 
-            <button
-                onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-neutral-800 text-neutral-400 hover:text-white disabled:opacity-30 disabled:hover:text-neutral-400 font-medium text-xs transition-all cursor-pointer"
+        {pages.map((page) => (
+            <Link
+            key={page}
+            href={`/projects?page=${page}`}
+            className={`btn ${
+                page === currentPage
+                ? "btn-primary"
+                : "btn-outline"
+            }`}
             >
-                Next <ArrowRight size={14} />
-            </button>
+            {page}
+            </Link>
+        ))}
+
+        <Link
+            href={`/projects?page=${currentPage + 1}`}
+            className={`btn btn-outline ${
+            currentPage === totalPages &&
+            "pointer-events-none opacity-40"
+            }`}
+        >
+            Next
+        </Link>
         </div>
     );
-};
+}

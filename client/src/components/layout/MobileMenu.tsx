@@ -13,6 +13,7 @@ interface MobileMenuProps {
   onClose: () => void;
   isLoggedIn: boolean;
   user?: {
+    id?: string | null;
     name: string;
     avatarUrl: string;
   };
@@ -22,12 +23,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
   const pathname = usePathname();
   const [exploreOpen, setExploreOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(user, 'mobile view')
   
   const mainNav = [
     { name: 'Home', href: '/' },
     { name: 'My Projects', href: '/dashboard/my-projects' },
-    { name: 'Public Projects', href: '/public-projects' },
+    { name: 'Public Projects', href: '/projects' },
     { name: 'Add Projects', href: '/dashboard/add-projects' },
     { name: 'My Portfolio', href: `/portfolio/${user?.id}` },
     { name: 'Add Portfolio', href: '/dashboard/portfolio' },

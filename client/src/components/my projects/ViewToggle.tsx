@@ -1,7 +1,7 @@
 // components/projects/ViewToggle.tsx
 'use client';
 import { useProjects } from '@/hooks/MyProjectsContext';
-import { DashboardViewMode } from '@/types/myProject';
+import { DashboardViewMode } from '@/types';
 import { LayoutGrid, List, TableProperties } from 'lucide-react';
 
 export default function ViewToggle() {

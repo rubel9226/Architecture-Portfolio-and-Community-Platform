@@ -1,4 +1,4 @@
-import { SortOption } from "@/types/publicProject";
+import { SortOption } from "@/types";
 
 
 export const sortOptions: SortOption[] = [

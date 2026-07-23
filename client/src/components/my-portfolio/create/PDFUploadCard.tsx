@@ -3,12 +3,20 @@ import { useRef } from "react";
 
 // --- PDF Resume Upload Card ---
 interface PDFUploadProps {
-  file: { name: string; size: string } | null;
+  file: File | null;
   onUpload: (file: File) => void;
   onRemove: () => void;
 }
 
-export const PDFUploadCard: React.FC<PDFUploadProps> = ({ user, file, onUpload, onRemove }) => {
+const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+};
+
+export const PDFUploadCard: React.FC<PDFUploadProps> = ({ file, onUpload, onRemove }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -35,7 +43,7 @@ export const PDFUploadCard: React.FC<PDFUploadProps> = ({ user, file, onUpload, 
                                 {file.name}
                             </p>
                             <p className="text-[11px] text-slate-400 dark:text-zinc-500">
-                                {file.size}
+                                {formatFileSize(file.size)}
                             </p>
                         </div>
                     </div>

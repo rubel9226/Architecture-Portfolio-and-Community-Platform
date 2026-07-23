@@ -50,7 +50,7 @@ export default function ProjectTable() {
                             <td className="p-3.5 text-slate-400">{p.category}</td>
                             <td className="p-3.5">
                                 <span className="inline-flex items-center gap-1 text-[10px] uppercase font-bold">
-                                {p.visibility === 'PUBLIC' ? <Globe size={10} className="text-blue-500"/> : p.visibility === 'PRIVATE' ? <Lock size={10} className="text-slate-400"/> : <EyeOff size={10} className="text-orange-500"/>}
+                                {p.visibility === 'public' ? <Globe size={10} className="text-blue-500"/> : p.visibility === 'private' ? <Lock size={10} className="text-slate-400"/> : <EyeOff size={10} className="text-orange-500"/>}
                                 {p.visibility}
                                 </span>
                             </td>

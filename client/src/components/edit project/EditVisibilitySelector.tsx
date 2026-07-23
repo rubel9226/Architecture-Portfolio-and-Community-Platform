@@ -3,7 +3,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Eye, ShieldAlert, Lock } from "lucide-react";
-import { EditProjectFormData, ProjectVisibility } from "@/types/editProject";
+import { EditProjectFormData, ProjectVisibility } from "@/types";
 
 const VISIBILITY_MODES = [
   { value: "public", label: "Public Portfolio", desc: "Visible globally across search rankings.", icon: Eye },

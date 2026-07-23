@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Sliders, Plus, X } from "lucide-react";
-import { EditProjectFormData } from "@/types/editProject";
+import { EditProjectFormData } from "@/types";
 
 export default function EditProjectDetails() {
     const { register, setValue, watch, formState: { errors } } = useFormContext<EditProjectFormData>();

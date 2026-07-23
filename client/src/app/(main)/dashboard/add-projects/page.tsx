@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"; 
-import { ProjectFormData, UploadProgress } from "@/types/addProject";
 import { projectSchema } from "@/validation/addSchema";
 import api from "@/lib/api";
 import ProjectInformation from "@/components/add project/ProjectInformation";
@@ -13,19 +12,18 @@ import ProjectMediaUpload from "@/components/add project/ProjectMediaUpload";
 import ProjectGallery from "@/components/add project/ProjectGallery";
 import ProjectDetails from "@/components/add project/ProjectDetails";
 import SoftwareSelector from "@/components/add project/SoftwareSelector";
-import TagSelector from "@/components/add project/TagSelector";
 import VisibilitySelector from "@/components/add project/VisibilitySelector";
 import PublishActions from "@/components/add project/PublishActions";
 import ProjectLivePreview from "@/components/add project/ProjectLivePreview";
 import { useUser } from "@/hooks/AuthContext";
+import { ProjectFormData, UploadProgress } from "@/types";
 
 
 export default function CreateProjectPage() {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [progress, setProgress] = useState<UploadProgress>({ percentage: 0, isUploading: false });
-    const {user, token} = useUser(); 
-    console.log(token);
+    const {token} = useUser();
 
     const methods = useForm<ProjectFormData>({
         resolver: zodResolver(projectSchema),
@@ -44,7 +42,6 @@ export default function CreateProjectPage() {
         coverImage: null,
         galleryImages: [],
         softwareUsed: [],
-        tags: [],
         visibility: "PUBLIC",
         },
     });
@@ -56,7 +53,7 @@ export default function CreateProjectPage() {
 
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
-            if (key === "coverImage" && value) {
+            if (key === "coverImage" && value instanceof File) {
                 formData.append("coverImage", value);
             } else if (key === "galleryImages" && Array.isArray(value)) {
                 value.forEach((file) => formData.append("galleryImages", file));

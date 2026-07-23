@@ -1,6 +1,4 @@
-import { ProjectData } from "@/types/";
-
-export const existingProjectMock: ProjectData = {
+export const existingProjectMock = {
     id: "arch-702",
     title: "The Pavilion of Kinetic Refraction",
     shortDescription: "An experimental lakeside pavilion featuring structural glass panels that shift dynamically based on ambient solar radiation patterns.",

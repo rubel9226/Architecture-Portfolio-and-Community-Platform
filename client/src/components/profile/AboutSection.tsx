@@ -1,8 +1,8 @@
 // components/profile/AboutSection.tsx
 'use client';
 import { motion } from 'framer-motion';
-import { AboutDetails } from '@/types/profile';
 import { fadeUpProfile } from '@/utils/animations';
+import { AboutDetails } from '@/types';
 
 export default function AboutSection({ details }: { details: AboutDetails }) {
   return (

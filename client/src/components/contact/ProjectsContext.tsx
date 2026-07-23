@@ -1,8 +1,8 @@
 // context/ProjectsContext.tsx
 'use client';
 import React, { createContext, useContext, useState, useMemo } from 'react';
-import { Project, DashboardViewMode, ProjectVisibility } from '@/types/myProject';
-import { mockProjects } from '@/data/my project/projects';
+import { useUser } from '@/hooks/AuthContext';
+import { DashboardViewMode, Project, ProjectVisibility } from '@/types';
 
 
 interface ToastState {
@@ -43,7 +43,8 @@ interface ProjectsContextType {
 const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
 
 export function ProjectsProvider({ children }: { children: React.ReactNode }) {
-    const [projects, setProjects] = useState<Project[]>(mockProjects);
+    const data = useUser();
+    const [projects, setProjects] = useState<Project[]>(data?.projects ?? []);
     const [viewMode, setViewMode] = useState<DashboardViewMode>('grid');
     const [searchQuery, setSearchQuery] = useState('');
     const [visibilityFilter, setVisibilityFilter] = useState('ALL');

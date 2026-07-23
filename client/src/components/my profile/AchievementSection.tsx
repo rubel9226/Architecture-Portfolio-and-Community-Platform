@@ -1,9 +1,9 @@
 // components/profile/AchievementSection.tsx
 'use client';
 import { motion } from 'framer-motion';
-import { AchievementItem } from '@/types/profile';
 import { DynamicIcon } from './DynamicIcon';
 import { fadeUpProfile, staggerContainerProfile } from '@/utils/animations';
+import { AchievementItem } from '@/types';
 
 export default function AchievementSection({ list }: { list: AchievementItem[] }) {
   return (

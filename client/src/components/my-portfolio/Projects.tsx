@@ -3,28 +3,31 @@ import SectionActions from './SectionActions';
 import Link from 'next/link';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
-import { PlusCircle } from 'lucide-react';
+import { useUser } from '@/hooks/AuthContext';
+import Image from 'next/image';
+import { Project } from '@/types';
 
-const Projects = ({projects}) => {
+const Projects = ({ projects }: { projects: Project[] }) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const { token } = useUser();
 
-    // const deleteProject = async (id: string) => {
-    //     setLoading(true);
-    //     alert(id)
-    //     try {
-    //         await api.put(`/project/portfolio/${id}`,{}, {
-    //             headers: {
-    //                 Authorization: token
-    //             }
-    //         });
-    //         router.refresh();
-    //     } catch(error) { 
-    //         console.log(error);
-    //     }finally{
-    //         setLoading(false)
-    //     }
-    // };
+    const deleteProject = async (id?: string) => {
+        if (!id) return;
+        setLoading(true);
+        try {
+            await api.put(`/project/portfolio/${id}`,{}, {
+                headers: {
+                    Authorization: token
+                }
+            });
+            router.refresh();
+        } catch(error) { 
+            console.log(error);
+        }finally{
+            setLoading(false)
+        }
+    };
     return (
         <section className="py-24 px-6" id="projects">
             <div className="max-w-7xl mx-auto text-center mb-16">
@@ -38,7 +41,9 @@ const Projects = ({projects}) => {
                     projects.map((project, index) => ( 
                         <div key={index} className="glass-card rounded-3xl overflow-hidden group">
                             <div className="aspect-video overflow-hidden">
-                                <img
+                                <Image 
+                                    width={200}
+                                    height={200}
                                     alt={project?.name}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                     src={project?.coverImage}
@@ -46,7 +51,7 @@ const Projects = ({projects}) => {
                             </div>
                             <div className="p-8">
                                 <h3 className="text-2xl font-bold mb-3 text-slate-100 font-sans">Product Craft (Assignment 10)</h3>
-                                <p className="text-slate-400 mb-6 font-medium line-clamp-3 trune">
+                                <p className="text-slate-400 mb-6 font-medium line-clamp-3 truncate">
                                     {project?.overview}
                                 </p>
                                 <div className="flex flex-wrap gap-2 mb-8">

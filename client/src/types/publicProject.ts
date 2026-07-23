@@ -4,24 +4,17 @@ export interface Creator {
     role?: string;
 }
 
-export interface Project {
-    id: string;
-    title: string;
-    description: string;
-    coverImage: string;
-    category: string;
-    creator: Creator;
-    university: string;
-    country: string;
-    software: string[];
-    views: number;
-    likes: number;
-    bookmarks: number;
-    year: number;
-    isFeaturedOfTheWeek?: boolean;
-    isEditorsChoice?: boolean;
-    isNew?: boolean;
+export interface ProjectAuthor {
+  _id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+  username: string;
 }
+
+
 
 export interface Category {
     id: string;
@@ -29,10 +22,6 @@ export interface Category {
     count: number;
 }
 
-export interface SortOption {
-    value: string;
-    label: string;
-}
 
 export interface Country {
     code: string;

@@ -3,26 +3,25 @@
 import { motion } from 'framer-motion'; 
 import { FolderOpen, Globe, Lock, FileText } from 'lucide-react';
 import { containerStaggerMyProject, fadeUpMyProject } from '@/utils/animations';
-import { mockProjects } from '@/data/my project/projects';
 
 export default function ProjectStats() {
-    const totals = {
-        all: mockProjects.length,
-        public: mockProjects.filter(p => p.visibility === 'PUBLIC').length,
-        private: mockProjects.filter(p => p.visibility === 'PRIVATE').length,
-        draft: mockProjects.filter(p => p.visibility === 'DRAFT').length,
-    };
+    // const totals = {
+    //     all: mockProjects.length,
+    //     public: mockProjects.filter(p => p.visibility === 'PUBLIC').length,
+    //     private: mockProjects.filter(p => p.visibility === 'PRIVATE').length,
+    //     draft: mockProjects.filter(p => p.visibility === 'DRAFT').length,
+    // };
 
-    const metricalCards = [
-        { label: 'Total Metrics', value: totals.all, desc: 'All uploaded design matrices', icon: FolderOpen, color: 'text-slate-200 bg-slate-700' },
-        { label: 'Public Tier', value: totals.public, desc: 'Discoverable design nodes', icon: Globe, color: 'text-blue-100 bg-indigo-500/40' },
-        { label: 'Private Vault', value: totals.private, desc: 'Restricted access frames', icon: Lock, color: 'text-teal-50 bg-teal-600' },
-        { label: 'Draft Schemes', value: totals.draft, desc: 'Unfinished schematic works', icon: FileText, color: 'text-orange-50 bg-orange-600/40' }
-    ];
+    // const metricalCards = [
+    //     { label: 'Total Metrics', value: totals.all, desc: 'All uploaded design matrices', icon: FolderOpen, color: 'text-slate-200 bg-slate-700' },
+    //     { label: 'Public Tier', value: totals.public, desc: 'Discoverable design nodes', icon: Globe, color: 'text-blue-100 bg-indigo-500/40' },
+    //     { label: 'Private Vault', value: totals.private, desc: 'Restricted access frames', icon: Lock, color: 'text-teal-50 bg-teal-600' },
+    //     { label: 'Draft Schemes', value: totals.draft, desc: 'Unfinished schematic works', icon: FileText, color: 'text-orange-50 bg-orange-600/40' }
+    // ];
 
     return (
         <motion.div variants={containerStaggerMyProject} initial="initial" whileInView="animate" viewport={{ once: true }} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {metricalCards.map((card, i) => (
+            {/* {metricalCards.map((card, i) => (
                 <motion.div key={i} variants={fadeUpMyProject} whileHover={{ y: -3 }} className="bg-slate-900 border border-slate-700 p-4 rounded-2xl shadow-3xs flex items-center gap-4 transition-all">
                     <div className={`p-3 rounded-xl border border-black/5 ${card.color}`}>
                         <card.icon size={16} />
@@ -33,7 +32,7 @@ export default function ProjectStats() {
                         <p className="text-[10px] text-slate-400 font-light tracking-normal">{card.desc}</p>
                     </div>
                 </motion.div>
-            ))}
+            ))} */}
         </motion.div>
     );
 }

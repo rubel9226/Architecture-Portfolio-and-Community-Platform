@@ -1,29 +1,48 @@
 // types/project.ts
-export type ProjectVisibility = 'PUBLIC' | 'PRIVATE' | 'DRAFT';
+
+import { ProjectVisibility } from "./allType";
+import { ProjectAuthor } from "./publicProject";
 
 export interface Project {
     _id: string;
-    isPortfolio: boolean;
+
     title: string;
-    coverImage: string;
     category: string;
+    projectType: string;
+    year: number;
+    location: string;
+
+    university: string;
+    teamMembers: string;
+    clientName: string;
+
+    overview: string;
+    designConcept: string;
+    materialsUsed: string;
+
+    coverImage: string;
+    galleryImages: string[];
+
+    softwareUsed: string[];
+    tags: string[];
+
+    isPortfolio: boolean;
     visibility: ProjectVisibility;
-    description: string;
-    software: string[];
-    views: number;
-    likes: number;
-    bookmarks: number;
+
+    likes: string[];
+    comments: string[];
+
+    author: ProjectAuthor;
+
     createdAt: string;
-    isPinned?: boolean;
-    isArchived?: boolean;
+    updatedAt: string;
+
+    __v: number;
 }
 
 export type DashboardViewMode = 'grid' | 'list' | 'table';
 
-export interface SortOption {
-    value: string;
-    label: string;
-}
+
 
 export interface FilterItem {
     id: string;

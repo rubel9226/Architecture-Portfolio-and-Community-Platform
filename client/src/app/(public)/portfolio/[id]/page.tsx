@@ -3,15 +3,22 @@ import api from "@/lib/api";
 import PortfolioNotFound from './../../../../components/my-portfolio/NotFound';
 
 
-export default async function Home({params}) {
+interface PageProps {
+    params: {
+        id: string
+    }
+};
+
+
+export default async function Home({params}: PageProps) {
     let userData = null
     let projects = null;
-    const query = await params;
+    const {id} = await params;
 
     try{
         const [userRes, projectRes] = await Promise.all([
-            api.get(`/portfolio/public/${query?.id}`,),
-            api.get(`/portfolio/public/projects/${query?.id}`,),
+            api.get(`/portfolio/public/${id}`,),
+            api.get(`/portfolio/public/projects/${id}`,),
         ]);
 
         console.log(userData, projects)

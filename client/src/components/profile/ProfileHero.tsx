@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MapPin, GraduationCap, MessageCircle, Share2, Plus } from 'lucide-react';
-import { ProfileInfo } from '@/types/profile';
 import { socialLinks } from '@/data/profileData';
 import { DynamicIcon } from './DynamicIcon';
+import { ProfileInfo } from '@/types';
 
 export default function ProfileHero({ info }: { info: ProfileInfo }) {
   return (

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Hash, Plus, X } from "lucide-react";
-import { EditProjectFormData } from "@/types/editProject";
+import { EditProjectFormData } from "@/types";
 
 export default function EditTagSelector() {
     const { setValue, watch } = useFormContext<EditProjectFormData>();

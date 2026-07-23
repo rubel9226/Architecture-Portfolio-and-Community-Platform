@@ -1,9 +1,9 @@
 // components/profile/ExperienceSection.tsx
 'use client';
 import { motion } from 'framer-motion';
-import { TimelineItem } from '@/types/profile';
 import { Briefcase } from 'lucide-react';
 import { fadeUpProfile, staggerContainerProfile } from '@/utils/animations';
+import { TimelineItem } from '@/types';
 
 export default function ExperienceSection({ timeline }: { timeline: TimelineItem[] }) {
   return (

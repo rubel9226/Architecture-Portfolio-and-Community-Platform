@@ -1,6 +1,4 @@
-// data/sortOptions.ts
-
-import { SortOption } from "@/types/myProject";
+import { SortOption } from "@/types";
 
 export const sortOptions: SortOption[] = [
   { value: 'newest', label: 'Newest Added' },

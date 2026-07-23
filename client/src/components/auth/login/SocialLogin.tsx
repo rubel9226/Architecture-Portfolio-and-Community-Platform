@@ -1,8 +1,7 @@
 "use client";
 
+import { SocialProvider } from "@/types";
 import React from "react";
-// import { Chrome, Github } from "lucide-react";
-import { SocialProvider } from "@/types/auth";
 import { FaChrome } from "react-icons/fa";
 import { GiThumbUp } from "react-icons/gi";
 

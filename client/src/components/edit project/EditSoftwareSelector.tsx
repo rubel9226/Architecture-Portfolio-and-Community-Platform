@@ -3,7 +3,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Cpu } from "lucide-react";
-import { EditProjectFormData } from "@/types/editProject";
+import { EditProjectFormData } from "@/types";
 
 const SOFTWARE_OPTIONS = [
   "Autodesk AutoCAD",

@@ -2,9 +2,9 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ProjectItem } from '@/types/profile';
 import ProjectCard from './ProjectCard';
 import { fadeUp, staggerContainerProfile } from '@/utils/animations';
+import { ProjectItem } from '@/types';
 
 type FilterType = 'All' | 'Residential' | 'Commercial' | 'Interior' | 'Landscape' | 'Thesis';
 const filterCategories: FilterType[] = ['All', 'Residential', 'Commercial', 'Interior', 'Landscape', 'Thesis'];

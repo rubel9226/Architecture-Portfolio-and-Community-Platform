@@ -67,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({session}) => {
                 My Projects
               </Link>
               <Link
-                href="/dashboard/public-projects"
+                href="/projects"
                 className={`text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1 py-0.5 ${
                   isLinkActive('/dashboard/public-projects') ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}

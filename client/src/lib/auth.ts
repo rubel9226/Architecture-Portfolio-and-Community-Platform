@@ -17,21 +17,6 @@ export const auth = betterAuth({
           type: "string",
           required: true,
         },
-        country: {
-          type: "string",
-        },
-        university: {
-          type: "string",
-        },
-        department: {
-          type: "string",
-        },
-        role: {
-          type: "string",
-        },
-        experience: {
-          type: "string",
-        },
       },
     },
     

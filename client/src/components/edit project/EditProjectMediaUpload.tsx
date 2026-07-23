@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { ImagePlus, CloudLightning, Eye } from "lucide-react";
-import { EditProjectFormData } from "@/types/editProject";
+import { EditProjectFormData } from "@/types";
 
 interface EditProjectMediaUploadProps {
   existingCover?: string;

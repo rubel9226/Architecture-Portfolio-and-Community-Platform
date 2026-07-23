@@ -3,7 +3,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Layers } from "lucide-react";
-import { EditProjectFormData } from "@/types/editProject";
+import { EditProjectFormData } from "@/types";
 
 const ARCHITECTURE_CATEGORIES = [
   "Residential Architecture",

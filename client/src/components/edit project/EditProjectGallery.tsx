@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Images, Plus, X, CloudLightning } from "lucide-react";
-import { EditProjectFormData } from "@/types/editProject";
+import { EditProjectFormData } from "@/types";
 
 export default function EditProjectGallery() {
     const { setValue, watch } = useFormContext<EditProjectFormData>();
@@ -13,17 +13,17 @@ export default function EditProjectGallery() {
 
     useEffect(() => {
         const urls = galleryItems.map((item) => {
-        if (item instanceof File) {
-            return URL.createObjectURL(item);
-        }
-        return item; // Cloudinary URL
+            if (item instanceof File) {
+                return URL.createObjectURL(item);
+            }
+                return item; // Cloudinary URL
         });
         setObjectUrls(urls);
 
         return () => {
-        urls.forEach((url) => {
-            if (url.startsWith("blob:")) URL.revokeObjectURL(url);
-        });
+            urls.forEach((url) => {
+                if (url.startsWith("blob:")) URL.revokeObjectURL(url);
+            });
         };
     }, [galleryItems]);
 

@@ -8,7 +8,7 @@ const CustomCursor = () => {
 
     useEffect(() => {
 
-        const moveCursor = (e) => {
+        const moveCursor = (e: MouseEvent) => {
             gsap.to(cursor.current, {
                 x: e.clientX,
                 y: e.clientY,

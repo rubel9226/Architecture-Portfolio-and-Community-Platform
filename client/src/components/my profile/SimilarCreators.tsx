@@ -2,8 +2,8 @@
 'use client';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { CreatorNode } from '@/types/profile';
 import { fadeUpProfile, staggerContainerProfile } from '@/utils/animations';
+import { CreatorNode } from '@/types';
 
 export default function SimilarCreators({ creators }: { creators: CreatorNode[] }) {
   return (

@@ -2,7 +2,6 @@
 'use client';
 import { useState, useEffect, startTransition } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { SettingsTabId } from '@/types/setting';
 import { settingsMenu } from '@/data/settingsMenu';
 
 
@@ -21,6 +20,7 @@ import DangerZone from '@/components/settings/DangerZone';
 import SettingsSidebar from '@/components/settings/SettingsSidebar';
 import SettingsSkeleton from '@/components/settings/SettingsSkeleton';
 import SaveChangesBar from '@/components/settings/SaveChangesBar'; 
+import { SettingsTabId } from '@/types';
 
 
 

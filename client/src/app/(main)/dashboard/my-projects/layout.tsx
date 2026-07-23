@@ -1,14 +1,13 @@
 import { AuthProvider } from "@/hooks/AuthContext";
 import api from "@/lib/api";
 import { auth } from "@/lib/auth";
+import { childrenProps } from "@/types/allType";
 import { headers } from "next/headers";
 import React from "react";
 
-interface MyProjectsRootProps {
-  children: React.ReactNode;
-}
 
-const MyProjectsRoot = async ({ children }: MyProjectsRootProps) => {
+
+const MyProjectsRoot = async ({ children }: childrenProps) => {
   let projects = null;
   let token = null
   let user = null

@@ -1,9 +1,9 @@
 import { Footer } from '@/components/layout/Footer';
 import NavbarMain from '@/components/layout/NavbarMain';
-import { AuthProvider } from '@/hooks/AuthContext';
+import { childrenProps } from '@/types';
 import React from 'react';
 
-const MainLayout = ({ children }: Readonly<{ children: React.ReactNode; }>) => {
+const MainLayout = ({ children }: childrenProps) => {
     
     return (
         <body className="min-h-full flex flex-col">

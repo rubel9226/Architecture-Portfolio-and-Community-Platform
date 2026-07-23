@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Eye, Heart, MapPin, Calendar } from 'lucide-react';
-import { ProjectItem } from '@/types/profile';
+import { ProjectItem } from '@/types';
 
 export default function ProjectCard({ project }: { project: ProjectItem }) {
   return (

@@ -4,9 +4,10 @@ import { useState } from "react";
 import SectionActions from './SectionActions';
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
+import { PortfolioData } from "@/types";
 
 
-const Contact = ({userData}) => {
+const Contact = ({ userData }: { userData: PortfolioData | null | undefined }) => {
     const [copied, setCopied] = useState("");
     console.log(userData, 'contact')
     
@@ -19,12 +20,12 @@ const Contact = ({userData}) => {
     });
     const [formStatus, setFormStatus] = useState("idle");
 
-    const handleFormChange = (e) => {
+    const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleFormSubmit = async(e)=>{
+    const handleFormSubmit = async(e: React.FormEvent)=>{
         e.preventDefault();
         
         if(
@@ -69,7 +70,7 @@ const Contact = ({userData}) => {
     };
 
 
-    const handleCopy = async (text) => {
+    const handleCopy = async (text: string) => {
         try {
             await navigator.clipboard.writeText(text);
             setCopied(text);

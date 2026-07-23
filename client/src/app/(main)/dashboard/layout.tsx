@@ -1,11 +1,13 @@
-import { Footer } from '@/components/layout/Footer';
-import NavbarMain from '@/components/layout/NavbarMain';
+
 import { AuthProvider } from '@/hooks/AuthContext';
 import { auth } from '@/lib/auth';
+import { childrenProps } from '@/types';
 import { headers } from 'next/headers';
-import React from 'react';
 
-const DashboardLayout = async ({ children }: Readonly<{ children: React.ReactNode; }>) => {
+
+
+
+const DashboardLayout = async ({ children }: childrenProps) => {
     let user = null;
     let token = null
     try{

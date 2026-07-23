@@ -1,41 +1,52 @@
 "use client";
 
-import React from "react";
-import { Search, Sparkles, Command } from "lucide-react";
+import { Search } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
-interface SearchBarProps {
-  value: string;
-  onChange: (val: string) => void;
-  suggestions: string[];
-  onSelectSuggestion: (val: string) => void;
-}
+export default function SearchBar() {
+    const router = useRouter();
+    const params = useSearchParams();
 
-export const SearchBar: React.FC<SearchBarProps> = ({ 
-  value, 
-  onChange, 
-  suggestions, 
-  onSelectSuggestion 
-}) => {
+    const [value, setValue] = useState(params.get("search") || "");
+
+    const handleSearch = () => {
+        const query = new URLSearchParams(params.toString());
+
+        if (value.trim()) {
+        query.set("search", value);
+        } else {
+        query.delete("search");
+        }
+
+        query.set("page", "1");
+
+        router.push(`/projects?${query.toString()}`);
+    };
+
     return (
-        <div className="w-full bg-neutral-950 sticky top-0 z-30 border-b border-neutral-900 py-4 backdrop-blur-md bg-opacity-90">
-            <div className="max-w-[2100px] mx-auto px-4 md:px-8">
-                <div className="relative flex items-center w-full">
-                    <div className="absolute left-4 text-neutral-500 pointer-events-none">
-                        <Search size={18} />
-                    </div>
-                    <input 
-                        type="text"
-                        value={value}
-                        onChange={(e) => onChange(e.target.value)}
-                        placeholder="Search by architecture framework, keywords, creator or university..."
-                        className="w-full bg-neutral-900 border border-neutral-800 text-white pl-12 pr-24 py-3.5 rounded-xl text-sm md:text-base focus:outline-none focus:border-neutral-600 transition-all placeholder:text-neutral-500 font-light"
-                    />
-                    <div className="absolute right-4 hidden md:flex items-center gap-1.5 bg-neutral-800 text-neutral-400 text-xs px-2 py-1.5 rounded-md font-mono border border-neutral-700">
-                        <Command size={10} />
-                        <span>K</span>
-                    </div>
-                </div>
-            </div>
+        <div className="mt-8 flex gap-3">
+        <div className="relative flex-1">
+            <Search
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/50"
+            />
+
+            <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            placeholder="Search projects..."
+            className="input input-bordered w-full pl-11"
+            />
+        </div>
+
+        <button
+            onClick={handleSearch}
+            className="btn btn-primary"
+        >
+            Search
+        </button>
         </div>
     );
-};
+}

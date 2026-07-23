@@ -2,8 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { StatItem } from "@/types/auth";
 import { CheckCircle2, ShieldCheck } from "lucide-react";
+import { StatItem } from "@/types";
 
 const stats: StatItem[] = [
   { value: "15K+", label: "Shared Portfolios" },

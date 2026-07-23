@@ -1,9 +1,9 @@
 // components/profile/EducationSection.tsx
 'use client';
 import { motion } from 'framer-motion';
-import { EducationItem } from '@/types/profile';
 import { GraduationCap } from 'lucide-react';
 import { fadeUpProfile } from '@/utils/animations';
+import { EducationItem } from '@/types';
 
 export default function EducationSection({ history }: { history: EducationItem[] }) {
   return (

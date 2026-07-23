@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { StatItem } from "@/types/auth";
+import { StatItem } from "@/types";
 
 const stats: StatItem[] = [
   { value: "10K+", label: "Portfolios" },

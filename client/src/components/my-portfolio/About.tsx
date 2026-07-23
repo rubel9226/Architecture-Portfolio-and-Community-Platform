@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import SectionActions from './SectionActions';
 import Link from 'next/link';
-import { Pen, Plus, Trash2 } from 'lucide-react';
+import { PortfolioData } from '@/types';
 
-const About = ({userData}) => {
+const About = ({ userData }: { userData: PortfolioData | null | undefined }) => {
     const [open, setOpen] = useState(false);
     return ( 
         <section 
@@ -26,7 +26,7 @@ const About = ({userData}) => {
                     <div className="mt-10">
                         <Link 
                             target='_blank' 
-                            href={userData?.resume}
+                            href={userData?.resume || '#'}
                             className="px-8 py-3 bg-linear-to-r bg-blue-500 to-pink-500 rounded-lg font-bold inline-flex items-center gap-2 hover:opacity-90 transition-opacity text-white"
                             // className="px-8 py-3 bg-linear-to-r from-accent-blue to-accent-pink rounded-lg font-bold inline-flex items-center gap-2 hover:opacity-90 text-white transition-opacity"
                         >

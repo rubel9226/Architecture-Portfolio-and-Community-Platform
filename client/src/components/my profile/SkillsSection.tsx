@@ -1,9 +1,9 @@
 // components/profile/SkillsSection.tsx
 'use client';
 import { motion } from 'framer-motion';
-import { SkillItem } from '@/types/profile';
 import { DynamicIcon } from './DynamicIcon';
 import { fadeUpProfile, staggerContainerProfile } from '@/utils/animations';
+import { SkillItem } from '@/types';
 
 export default function SkillsSection({ list }: { list: SkillItem[] }) {
   const getChroma = (lvl: string) => {

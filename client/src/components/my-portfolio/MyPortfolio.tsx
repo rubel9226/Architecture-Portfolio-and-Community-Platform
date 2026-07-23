@@ -13,7 +13,9 @@ import CustomCursor from "./CustomCursor";
 import NoProjects from "./NoProjects"; 
 import { NavbarPortfolio } from './Navbar';
 import Footer from './Footer';
-export default function MyPortfolioPage({userData, projects}) {
+import { PortfolioData, Project } from "@/types";
+
+export default function MyPortfolioPage({ userData, projects }: { userData?: PortfolioData | null; projects: Project[] }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
     const [isLoading, setIsLoading] = useState(true);
@@ -134,7 +136,7 @@ export default function MyPortfolioPage({userData, projects}) {
                     </div>
                     
                     <div data-scroll-reveal>
-                        <Skills skills={userData?.skills} />
+                        <Skills skills={userData?.skills || []} />
                     </div>
                     
                     {/* <div data-scroll-reveal>

@@ -1,9 +1,10 @@
 // context/ProjectsContext.tsx
 'use client';
 import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
-import { DashboardViewMode, ProjectVisibility, Project } from '@/types/myProject'; 
+import { DashboardViewMode, Project } from '@/types/myProject'; 
 import { useUser } from "@/hooks/AuthContext";
 import api from '@/lib/api';
+import { ProjectVisibility } from '@/types';
 
 
 interface ToastState {
@@ -147,7 +148,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         triggerToast(`Bulk items modified to target access tier: ${visibility}`, 'success');
     };
 
-    const togglePortfolioProject = (id:string) => {
+    const togglePortfolioProject = (id?:string) => {
         setProjects(prev =>
             prev.map(project =>
                 project._id === id
@@ -165,7 +166,8 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         );
     };
 
-    const deleteProject = async (id: string) => {
+    const deleteProject = async (id?: string) => {
+        if (!id) return;
         try {
             await api.delete(`/project/delete/${id}`, {
                 headers: {
@@ -178,7 +180,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
             setSelectedIds(prev => prev.filter(projectId => projectId !== id));
 
             triggerToast( 'Project deleted successfully.', 'success');
-        } catch(error) { 
+        } catch(error: any) { 
             console.log(error); 
             triggerToast( error?.response?.data?.message, 'error' );
         }

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { MapPin, Calendar, Compass, Layers } from "lucide-react";
-import { EditProjectFormData } from "@/types/editProject";
+import { EditProjectFormData } from "@/types";
 
 export default function EditProjectLivePreview() {
     const { watch } = useFormContext<EditProjectFormData>();

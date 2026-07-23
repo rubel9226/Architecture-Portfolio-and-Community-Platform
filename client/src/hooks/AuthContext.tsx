@@ -1,33 +1,22 @@
 "use client";
 
+import { User } from "@/types/allType";
+import { Project } from "@/types/myProject";
 import { createContext, useContext, ReactNode } from "react";
 
-interface User {
-    id: string;
-    name: string;
-    email: string;
-    image?: string | null;
-
-    username?: string;
-    country?: string;
-    university?: string;
-    department?: string;
-    role?: string;
-    experience?: string;
-}
-
 interface AuthContextType {
-    user: User | null;
-    token: string;
+    user: User | null | undefined;
+    token: string | null | undefined;
+    projects?: Project[];
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 interface AuthProviderProps {
     children: ReactNode;
-    user: User | null;
-    token?: string;
-    projects?: any[];
+    user: User | null | undefined;
+    token?: string | null | undefined;
+    projects?: Project[];
 }
 
 export function AuthProvider({ children, user, token = "", projects}: AuthProviderProps) {

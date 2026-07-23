@@ -10,7 +10,12 @@ import { PDFUploadCard } from "./create/PDFUploadCard";
 import { TagInput } from "./create/TagInputProps";
 
 
-export default function PortfolioCreatorPage({userData, user}) {
+
+import { PortfolioData } from "@/types";
+import type { User as UserType } from "@/types/allType";
+
+
+export default function PortfolioCreatorPage({ userData, user }: { userData?: PortfolioData | null; user?: UserType | null }) {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -28,7 +33,7 @@ export default function PortfolioCreatorPage({userData, user}) {
     const [aboutImagePreview, setAboutImgPreview] = useState<string | null>("");
     const [isHeroUploading, setIsHeroUploading] = useState(false);
     const [resume, setResume] = useState<File | null>(null);
-    const [resumePreview, setResumePreview] = useState<File | null>(null);
+    const [resumePreview, setResumePreview] = useState<string | null>(null);
 
     // Tags
     const [skills, setSkills] = useState<string[]>([]); 
@@ -43,20 +48,20 @@ export default function PortfolioCreatorPage({userData, user}) {
     
     useEffect(() => {
         if(userData){
-            setFullName(userData?.name);
-            setRoles(userData?.roles);
-            setHeroDescription(userData?.heroDescription);
-            setAboutBio(userData?.aboutDescription);
-            setHeroImgPreview(userData?.heroImage);
-            setAboutImgPreview(userData?.aboutImage);
-            setResumePreview(userData?.resume);
-            setSkills(userData?.skills);
-            setEmail(userData?.email);
-            setPhone(userData?.phone);
-            setAddress(userData?.address);
+            setFullName(userData?.name || "");
+            setRoles(userData?.roles || []);
+            setHeroDescription(userData?.heroDescription || "");
+            setAboutBio(userData?.aboutDescription || "");
+            setHeroImgPreview(userData?.heroImage || "");
+            setAboutImgPreview(userData?.aboutImage || "");
+            setResumePreview(userData?.resume || null);
+            setSkills(userData?.skills || []);
+            setEmail(userData?.email || "");
+            setPhone(userData?.phone || "");
+            setAddress(userData?.address || "");
         } else if(user){
-            setFullName(user?.name);
-            setEmail(user?.email);
+            setFullName(user?.name || "");
+            setEmail(user?.email || "");
         }
     }, [user, userData])
 
@@ -298,7 +303,6 @@ export default function PortfolioCreatorPage({userData, user}) {
 
                         <div className="pt-2">
                             <PDFUploadCard
-                                user={userData}
                                 file={resume}
                                 onUpload={handlePdfUpload}
                                 onRemove={() => setResume(null)}
@@ -357,7 +361,6 @@ export default function PortfolioCreatorPage({userData, user}) {
                                         {resumePreview ? (
                                             <iframe
                                             src={resumePreview}
-                                            alt="reseume preview"
                                             className="w-full h-full object-cover"
                                             />
                                         ) : (
