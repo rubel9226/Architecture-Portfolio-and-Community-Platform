@@ -15,4 +15,43 @@ export const uploadBufferToCloudinary = (buffer, folder) => {
         streamifier.createReadStream(buffer).pipe(stream);
     });
 };
+export const uploadCloudinaryPDF = (buffer, folder, originalName) => {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream({
+            folder,
+            resource_type: "auto",
+            public_id: originalName.replace(".pdf", ""),
+            use_filename: true,
+            unique_filename: true,
+        }, (error, result) => {
+            if (error)
+                return reject(error);
+            if (!result)
+                return reject(new Error("File upload failed"));
+            resolve(`${result.secure_url}`);
+        });
+        streamifier.createReadStream(buffer).pipe(stream);
+    });
+};
+export const deleteFromCloudinary = async (url) => {
+    if (!url)
+        return;
+    try {
+        const parts = url.split("/");
+        const uploadIndex = parts.findIndex((item) => item === "upload");
+        const publicId = parts
+            .slice(uploadIndex + 2)
+            .join("/")
+            .replace(/\.[^/.]+$/, "");
+        const resourceType = url.includes("/raw/")
+            ? "raw"
+            : "image";
+        await cloudinary.uploader.destroy(publicId, {
+            resource_type: resourceType,
+        });
+    }
+    catch (err) {
+        console.error("Cloudinary Delete Error:", err);
+    }
+};
 //# sourceMappingURL=cloueinary.js.map

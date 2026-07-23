@@ -1,1 +1,1 @@
-{"version":3,"file":"cloueinary.d.ts","sourceRoot":"","sources":["../../src/middlewares/cloueinary.ts"],"names":[],"mappings":"AAGA,eAAO,MAAM,wBAAwB,WAAa,MAAM,UAAU,MAAM,KAAI,OAAO,CAAC,MAAM,CAiBzF,CAAC"}
+{"version":3,"file":"cloueinary.d.ts","sourceRoot":"","sources":["../../src/middlewares/cloueinary.ts"],"names":[],"mappings":"AAGA,eAAO,MAAM,wBAAwB,WAAa,MAAM,UAAU,MAAM,KAAI,OAAO,CAAC,MAAM,CAgBzF,CAAC;AAGF,eAAO,MAAM,mBAAmB,WAAc,MAAM,UAAU,MAAM,gBAAgB,MAAM,KAAI,OAAO,CAAC,MAAM,CAoB3G,CAAC;AAGF,eAAO,MAAM,oBAAoB,QAAe,MAAM,kBAwBrD,CAAC"}

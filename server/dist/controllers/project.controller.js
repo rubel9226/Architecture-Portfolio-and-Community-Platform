@@ -75,12 +75,60 @@ export const handleGetMyProject = async (req, res, next) => {
         next(error);
     }
 };
+export const handleGetAllProject = async (req, res, next) => {
+    try {
+        const projects = await Project.find({});
+        return successResponse(res, {
+            statusCode: 201,
+            message: "Project created successfully",
+            payload: projects,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+};
 export const handleGetSingleProject = async (req, res, next) => {
     try {
         const project = await Project.findById(req?.params?.id);
         if (!project) {
             throw createError('Project not found!');
         }
+        return successResponse(res, {
+            statusCode: 201,
+            message: "Project created successfully",
+            payload: project,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const handleAddPortfolio = async (req, res, next) => {
+    try {
+        const project = await Project.findById(req?.params?.id);
+        console.log(project, 'old project');
+        if (!project)
+            throw createError('Project not found!');
+        const updatedProject = await Project.findOneAndUpdate({ _id: req?.params?.id }, {
+            isPortfolio: !project?.isPortfolio
+        }, { returnDocument: 'after' });
+        console.log(updatedProject, 'new project');
+        return successResponse(res, {
+            statusCode: 201,
+            message: "Project created successfully",
+            payload: updatedProject,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+export const handleDeletePortfolio = async (req, res, next) => {
+    try {
+        const project = await Project.findOneAndDelete({ _id: req?.params?.id });
+        if (!project)
+            throw createError('Project not found!');
         return successResponse(res, {
             statusCode: 201,
             message: "Project created successfully",

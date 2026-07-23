@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Document, Model } from "mongoose";
 export interface IPortfolio extends Document {
-    author: Schema.Types.ObjectId;
+    author: mongoose.Types.ObjectId;
     name: string;
     roles: string[];
     heroImage: string;

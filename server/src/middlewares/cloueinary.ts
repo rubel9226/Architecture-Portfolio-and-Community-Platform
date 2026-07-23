@@ -20,7 +20,7 @@ export const uploadBufferToCloudinary = ( buffer: Buffer, folder: string ): Prom
 };
 
 
-export const uploadCloudinaryPDF = (  buffer: Buffer, folder: string, originalName: string ) => {
+export const uploadCloudinaryPDF = (  buffer: Buffer, folder: string, originalName: string ): Promise<string> => {
     return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
             {

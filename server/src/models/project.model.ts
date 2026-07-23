@@ -1,6 +1,6 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
-export type ProjectVisibility = "PUBLIC" | "PRIVATE";
+export type ProjectVisibility = "public" | "private";
 
 export interface IProject extends Document {
     title: string;
@@ -21,7 +21,9 @@ export interface IProject extends Document {
 
     softwareUsed: string[];
     tags: string[];
+
     isPortfolio: boolean;
+    isFeatured: boolean;
 
     visibility: ProjectVisibility;
     
@@ -30,7 +32,7 @@ export interface IProject extends Document {
     comments: string[];
     commentCount: number;
 
-    author: Schema.Types.ObjectId;
+    author: Types.ObjectId;
 
     createdAt: Date;
     updatedAt: Date;
@@ -124,11 +126,16 @@ const projectSchema = new Schema<IProject>(
             type: Boolean,
             default: false,
         },
+        isFeatured: {
+            type: Boolean,
+            default: false,
+        },
 
         visibility: {
             type: String,
-            enum: ["PUBLIC", "PRIVATE"],
-            default: "PUBLIC",
+            lowercase: true,
+            enum: ["public", "private"],
+            default: "public",
         },
         likes: {
             type: [String]

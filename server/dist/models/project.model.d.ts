@@ -1,5 +1,5 @@
-import { Schema, Document } from "mongoose";
-export type ProjectVisibility = "PUBLIC" | "PRIVATE";
+import { Document, Types } from "mongoose";
+export type ProjectVisibility = "public" | "public";
 export interface IProject extends Document {
     title: string;
     category: string;
@@ -16,13 +16,18 @@ export interface IProject extends Document {
     galleryImages: string[];
     softwareUsed: string[];
     tags: string[];
+    isPortfolio: boolean;
     visibility: ProjectVisibility;
-    author: Schema.Types.ObjectId;
+    likes: string[];
+    likeCount: number;
+    comments: string[];
+    commentCount: number;
+    author: Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
 }
 declare const _default: import("mongoose").Model<IProject, {}, {}, {}, Document<unknown, {}, IProject, {}, import("mongoose").DefaultSchemaOptions> & IProject & Required<{
-    _id: import("mongoose").Types.ObjectId;
+    _id: Types.ObjectId;
 }> & {
     __v: number;
 } & {

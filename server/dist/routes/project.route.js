@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleAddProject, handleGetMyProject, handleGetSingleProject } from '../controllers/project.controller.js';
+import { handleAddPortfolio, handleAddProject, handleDeletePortfolio, handleGetMyProject, handleGetSingleProject } from '../controllers/project.controller.js';
 import { upload } from '../middlewares/upload.js';
 import { isLoggedIn } from '../middlewares/auth.js';
 export const project = express();
@@ -11,7 +11,11 @@ project.post('/add-project', upload.fields([
 // my projects
 project.get('/my-projects', isLoggedIn, handleGetMyProject);
 // my projects
-project.get('/single-project/:id', 
-// isLoggedIn,
-handleGetSingleProject);
+project.get('/all-projects', handleGetMyProject);
+// my projects
+project.get('/single-project/:id', handleGetSingleProject);
+// my projects
+project.put('/portfolio/:id', isLoggedIn, handleAddPortfolio);
+// my projects
+project.delete('/delete/:id', isLoggedIn, handleDeletePortfolio);
 //# sourceMappingURL=project.route.js.map

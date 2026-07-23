@@ -126,6 +126,44 @@ export const handleGetMyProject = async ( req: Request, res: Response, next: Nex
 
 
 
+export const handleGetAllProject = async ( req: Request, res: Response, next: NextFunction ) => {
+    try {
+        const page = Number(req.query.page) || 1;
+
+        const limit = Number(req.query.limit) || 12;
+
+        const skip = (page - 1) * limit;
+
+        const total = await Project.countDocuments({
+            visibility: "public",
+        });  
+
+        const projects = await Project.find({visibility: "public"})
+            .populate("author", "name username image")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+
+        return successResponse(res, {
+            statusCode: 201,
+            message: "Project created successfully",
+            payload: {
+                projects,
+                pagination: {
+                    page,
+                    totalPages: Math.ceil(total/limit)
+                }
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+}; 
+
+
+
+
 export const handleGetSingleProject = async ( req: Request, res: Response, next: NextFunction ) => {
     try { 
         const project = await Project.findById(req?.params?.id);
@@ -181,7 +219,6 @@ export const handleDeletePortfolio = async ( req: Request, res: Response, next: 
         const project = await Project.findOneAndDelete({_id: req?.params?.id})
 
         if(!project) throw createError('Project not found!');
-
 
         return successResponse(res, {
             statusCode: 201,

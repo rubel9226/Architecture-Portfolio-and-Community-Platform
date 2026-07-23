@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 const projectSchema = new Schema({
     title: {
         type: String,
@@ -67,10 +67,27 @@ const projectSchema = new Schema({
         type: [String],
         default: [],
     },
+    isPortfolio: {
+        type: Boolean,
+        default: false,
+    },
     visibility: {
         type: String,
-        enum: ["PUBLIC", "PRIVATE"],
-        default: "PUBLIC",
+        lowercase: true,
+        enum: ["public", "public"],
+        default: "public",
+    },
+    likes: {
+        type: [String]
+    },
+    likeCount: {
+        type: Number
+    },
+    comments: {
+        type: [String],
+    },
+    commentCount: {
+        type: Number
     },
     author: {
         type: Schema.Types.ObjectId,

@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { successResponse } from "../utils/response.controller.js";
 import Portfolio from "../models/portfolio.model.js";
+import type { IPortfolio } from "../models/portfolio.model.js";
 import { deleteFromCloudinary, uploadBufferToCloudinary, uploadCloudinaryPDF } from "../middlewares/cloueinary.js";
 import createError from 'http-errors';
 import mongoose from "mongoose";
@@ -131,7 +132,7 @@ export const handleUpdateAbout = async ( req: Request, res: Response, next: Next
             resume?: Express.Multer.File[];
         };
 
-        let aboutImage: string = null;
+        let aboutImage: string | null = null;
         if (files?.aboutImage) {
             if(portfolio?.aboutImage){ 
                 await deleteFromCloudinary(portfolio?.aboutImage);
@@ -142,7 +143,7 @@ export const handleUpdateAbout = async ( req: Request, res: Response, next: Next
             );
         }
 
-        let resume: string = null;
+        let resume: string | null = null;
         if (files?.resume) {
             if(portfolio?.resume){
                 await deleteFromCloudinary(portfolio?.resume);
@@ -153,7 +154,7 @@ export const handleUpdateAbout = async ( req: Request, res: Response, next: Next
                 files.resume[0].originalname
             );
         }
-        const data = {};
+        const data: Partial<IPortfolio> = {};
         if(aboutImage){
             data.aboutImage = aboutImage;
         }
