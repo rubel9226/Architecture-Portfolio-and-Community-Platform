@@ -62,7 +62,10 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
         className="w-10 aspect-square flex rounded-full  bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-transform active:scale-95"
         aria-label="User Account Menu"
       >
-        <img className="h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 aspect-square" src={user.avatarUrl} alt={user.name} />
+        {/* <img className="h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 aspect-square" src={user.avatarUrl} alt={user.name} /> */}
+        <div className="h-10 w-10 rounded-full object-cover bg-purple-700 text-center content-center text-lg font-semibold">
+          {user?.name[0]}
+        </div>
       </button>
 
       {isOpen && (

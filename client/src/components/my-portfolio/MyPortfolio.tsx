@@ -13,9 +13,9 @@ import CustomCursor from "./CustomCursor";
 import NoProjects from "./NoProjects"; 
 import { NavbarPortfolio } from './Navbar';
 import Footer from './Footer';
-import { PortfolioData, Project } from "@/types";
+import { PortfolioData, Project, User } from "@/types";
 
-export default function MyPortfolioPage({ userData, projects }: { userData?: PortfolioData | null; projects: Project[] }) {
+export default function MyPortfolioPage({ userData, projects, user, token, id }: { userData?: PortfolioData | null; projects: Project[]; user: User | null | undefined; token: string | null | undefined; id: string }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
     const [isLoading, setIsLoading] = useState(true);
@@ -147,7 +147,7 @@ export default function MyPortfolioPage({ userData, projects }: { userData?: Por
                         {
                             projects.length === 0 
                             ? <NoProjects />
-                            : <Projects projects={projects} />
+                            : <Projects projects={projects}  user={user} token={token} id={id} />
                         }
                     </div> 
                     

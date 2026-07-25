@@ -15,15 +15,11 @@ export const LoginForm: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<LoginFormData>({
+    const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
             resolver: zodResolver(loginSchema),
             defaultValues: {
-            identifier: "",
-            password: "",
+            identifier: "rubel@gmail.com",
+            password: "@Rubel12",
             rememberMe: false,
         },
     });
@@ -71,7 +67,7 @@ export const LoginForm: React.FC = () => {
             />
             </div>
             {errors.identifier && (
-            <p className="text-[10px] text-rose-500 font-medium">{errors.identifier.message}</p>
+                <p className="text-[10px] text-rose-500 font-medium">{errors.identifier.message}</p>
             )}
         </div>
 

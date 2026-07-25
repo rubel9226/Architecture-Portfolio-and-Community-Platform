@@ -10,6 +10,7 @@ import ProjectCard from '@/components/Home/ProjectCard';
 import StatCard from '@/components/Home/StatCard';
 import Step from '@/components/Home/Step';
 import TestimonialCard from '@/components/Home/TextimonialCard';
+import { Project } from '@/types';
 import { motion } from 'framer-motion';
 import { Building2, Award, Compass, Layers, Sparkles, Shield, Users, Landmark, ChevronRight, Mail, HardDrive, DraftingCompass } from 'lucide-react';
 import Image from 'next/image';
@@ -35,20 +36,20 @@ const fadeInUp = {
     }
 };
 
-const MainHomePage = ({}) => {
+const MainHomePage = ({publicProjects, featuredProjects} : {publicProjects:Project[], featuredProjects: Project[]}) => {
     return (
         <div className="bg-slate-50 text-slate-900 min-h-screen font-sans overflow-x-hidden selection:bg-blue-600 selection:text-white">
-            
-            {/* 2. HERO SECTION */}
+
+
             <section className="relative pt-12 pb-24 lg:pt-20 lg:pb-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
                     
                     {/* Left Hero Block */}
                     <motion.div 
-                    className="lg:col-span-7 space-y-6"
-                    initial="hidden"
-                    animate="visible"
-                    variants={staggerContainer}
+                        className="lg:col-span-7 space-y-6"
+                        initial="hidden"
+                        animate="visible"
+                        variants={staggerContainer}
                     >
                     <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold uppercase tracking-wider">
                         <Sparkles className="h-3.5 w-3.5 text-orange-500 animate-pulse" />
@@ -58,9 +59,9 @@ const MainHomePage = ({}) => {
                     <motion.h1 variants={fadeInUp} className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-slate-900">
                         Build Your Architecture Portfolio. <br />
                         <span className="bg-linear-to-r from-blue-600 via-teal-700 to-orange-500 bg-clip-text text-transparent">
-                        Showcase Creativity.
+                            Showcase Creativity.
                         </span><br />
-                        Get Discovered.
+                            Get Discovered.
                     </motion.h1>
                     
                     <motion.p variants={fadeInUp} className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
@@ -141,12 +142,12 @@ const MainHomePage = ({}) => {
             <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
                 <div>
-                <h2 className="text-3xl font-black tracking-tight text-slate-900">Featured Projects</h2>
-                <p className="text-slate-500 mt-2 text-sm sm:text-base">Discover outstanding architecture projects curated by our worldwide community.</p>
+                    <h2 className="text-3xl font-black tracking-tight text-slate-900">Featured Projects</h2>
+                    <p className="text-slate-500 mt-2 text-sm sm:text-base">Discover outstanding architecture projects curated by our worldwide community.</p>
                 </div>
-                <button className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700 mt-4 md:mt-0 group transition-colors">
-                See all feature layouts <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </button>
+                {/* <button className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700 mt-4 md:mt-0 group transition-colors">
+                    See all feature layouts <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </button> */}
             </div>
 
             <motion.div 
@@ -155,13 +156,10 @@ const MainHomePage = ({}) => {
                 whileInView="visible"
                 viewport={{ once: true, margin: '-60px' }}
                 variants={staggerContainer}
-            >
-                <ProjectCard image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" category="Residential" title="The Brutalist Oasis Residence" author="Alexandre M." university="MIT Architecture" likes="1.2k" views="14.5k" />
-                <ProjectCard image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80" category="Commercial" title="Velo Tower Highrise Concept" author="Sarah Jenkins" university="Harvard GSD" likes="942" views="11.2k" />
-                <ProjectCard image="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" category="Interior" title="Minimalist Atrium Workspace" author="Chen Wei" university="ETH Zurich" likes="2.1k" views="28.4k" />
-                <ProjectCard image="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=80" category="Landscape" title="Biophilic Urban River Plaza" author="Elena Rostova" university="Delft University" likes="830" views="9.1k" />
-                <ProjectCard image="https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=600&q=80" category="Urban Design" title="Ecotone Residential Grid" author="Marcus Thorne" university="AA School" likes="1.5k" views="16.7k" />
-                <ProjectCard image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" category="Thesis" title="Subterranean Thermal Pavilion" author="Liam O'Connor" university="Univ. of Melbourne" likes="3.4k" views="42.1k" />
+                >
+                {publicProjects.map((project, index) => (
+                    <ProjectCard key={index} id={project?._id} image={project?.coverImage} category={project?.category} title={project?.title} author={project?.author?.name} university="MIT Architecture"/>
+                ))}
             </motion.div>
             </section>
 
@@ -205,7 +203,7 @@ const MainHomePage = ({}) => {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={staggerContainer}
-            >
+                >
                 <FeatureCard icon={DraftingCompass} title="Portfolio Builder" desc="Deploy architectural templates ready for publication in minutes." gradient="from-blue-600/10 to-transparent" />
                 <FeatureCard icon={Shield} title="Public & Private" desc="Retain full control over visibility permissions for academic reviews." gradient="from-teal-700/10 to-transparent" />
                 <FeatureCard icon={Award} title="Professional Profile" desc="Aggregate skills, education indices, and credentials seamlessly." gradient="from-orange-500/10 to-transparent" />
@@ -214,43 +212,38 @@ const MainHomePage = ({}) => {
             </section>
 
             {/* 7. TOP CONTRIBUTORS */}
-            <section className="py-20 bg-slate-900 text-white rounded-3xl max-w-7xl mx-auto px-6 lg:px-12 my-12">
-            <div className="mb-12">
-                <h2 className="text-3xl font-black tracking-tight">Top Contributors</h2>
-                <p className="text-slate-400 mt-2 text-sm">Elite designers whose projects are making waves in the community tier.</p>
-            </div>
+            {/* <section className="py-20 bg-slate-900 text-white rounded-3xl max-w-7xl mx-auto px-6 lg:px-12 my-12">
+                <div className="mb-12">
+                    <h2 className="text-3xl font-black tracking-tight">Top Contributors</h2>
+                    <p className="text-slate-400 mt-2 text-sm">Elite designers whose projects are making waves in the community tier.</p>
+                </div>
 
-            <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-            >
-                <ContributorCard image="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" name="Amélie Laurent" university="ETH Zurich" country="Switzerland" projects={24} followers="14.8k" />
-                <ContributorCard image="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" name="Nikolas Brooten" university="Harvard GSD" country="United States" projects={18} followers="9.2k" />
-                <ContributorCard image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" name="Siddharth Nair" university="IIT Roorkee" country="India" projects={31} followers="11.4k" />
-                <ContributorCard image="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" name="Yuki Tanaka" university="University of Tokyo" country="Japan" projects={15} followers="8.7k" />
-            </motion.div>
-            </section>
+                <motion.div 
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={staggerContainer}
+                >
+                    <ContributorCard image="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" name="Amélie Laurent" university="ETH Zurich" country="Switzerland" projects={24} followers="14.8k" />
+                    <ContributorCard image="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" name="Nikolas Brooten" university="Harvard GSD" country="United States" projects={18} followers="9.2k" />
+                    <ContributorCard image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" name="Siddharth Nair" university="IIT Roorkee" country="India" projects={31} followers="11.4k" />
+                    <ContributorCard image="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" name="Yuki Tanaka" university="University of Tokyo" country="Japan" projects={15} followers="8.7k" />
+                </motion.div>
+            </section> */}
 
             {/* 8. LATEST PUBLIC PROJECTS */}
             <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-12">
-                <h2 className="text-3xl font-black tracking-tight text-slate-900">Latest Public Projects</h2>
-                <p className="text-slate-500 mt-2 text-sm">Real-time uploads streaming straight from international design boards.</p>
-            </div>
+                <div className="mb-12">
+                    <h2 className="text-3xl font-black tracking-tight text-slate-900">Latest Public Projects</h2>
+                    <p className="text-slate-500 mt-2 text-sm">Real-time uploads streaming straight from international design boards.</p>
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <MasonryCard image="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=500&q=80" category="Interior" author="Sofia G." location="Milan, IT" />
-                <MasonryCard image="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500&q=80" category="Commercial" author="David K." location="Berlin, DE" />
-                <MasonryCard image="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80" category="Residential" author="Lucas P." location="São Paulo, BR" />
-                <MasonryCard image="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=500&q=80" category="Landscape" author="Mina L." location="Seoul, KR" />
-                <MasonryCard image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=500&q=80" category="Urban" author="Hassan M." location="Cairo, EG" />
-                <MasonryCard image="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=500&q=80" category="Thesis" author="Emma B." location="London, UK" />
-                <MasonryCard image="https://images.unsplash.com/photo-1506974210756-8e1b8985d348?auto=format&fit=crop&w=500&q=80" category="Competition" author="Ryan T." location="Sydney, AU" />
-                <MasonryCard image="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=500&q=80" category="Residential" author="Chloe W." location="Toronto, CA" />
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {publicProjects.map((project, index) => (
+                        <MasonryCard key={index} id={project?._id} image={project?.coverImage} category={project?.category} author={project?.author?.name} location={project?.location} />
+                    ))}
+                </div>
             </section>
 
             {/* 9. HOW IT WORKS */}

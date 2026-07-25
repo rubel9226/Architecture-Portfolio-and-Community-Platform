@@ -48,7 +48,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
 
   return (
     <div 
-      className={`fixed inset-0 z-50 lg:hidden transition-visibility duration-300 ${isOpen ? 'visible' : 'invisible'}`}
+      className={`fixed inset-0 z-50 md:hidden transition-visibility duration-300 ${isOpen ? 'visible' : 'invisible'}`}
       role="dialog" 
       aria-modal="true"
     >
@@ -76,14 +76,14 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
         {/* Scalable Container for Search and Navigation */}
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
           {/* Internal Search bar built for Mobile layouts */}
-          <div className="relative">
+          {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input 
               type="text" 
               placeholder="Search platform..." 
               className="w-full h-10 pl-9 pr-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/30"
             />
-          </div>
+          </div> */}
 
           <div className="flex flex-col gap-1">
             <Link 
@@ -107,15 +107,18 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
 
         {/* Footprint/Account area */}
         <div className="border-t border-slate-100 dark:border-slate-800 p-6 bg-slate-50 dark:bg-slate-900/50">
-          <div className="flex items-center justify-between mb-4">
+          {/* <div className="flex items-center justify-between mb-4">
             <span className="text-sm font-medium text-slate-500">Interface Theme</span>
             <ThemeToggle />
-          </div>
+          </div> */}
 
           {isLoggedIn && user ? (
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <img src={user.avatarUrl} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
+                {/* <img src={user.avatarUrl} alt={user.name} className="h-10 w-10 rounded-full object-cover" /> */}
+                <div className="h-10 w-10 rounded-full object-cover bg-purple-700 text-center content-center text-xl font-semibold">
+                  {user?.name[0]}
+                </div>
                 <div>
                   <h4 className="text-sm font-semibold text-slate-900 dark:text-white">{user.name}</h4>
                   <Link href="/portfolio" className="text-xs text-blue-600 hover:underline">View Portfolio</Link>

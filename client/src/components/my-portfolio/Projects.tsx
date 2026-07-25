@@ -3,14 +3,12 @@ import SectionActions from './SectionActions';
 import Link from 'next/link';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/hooks/AuthContext';
 import Image from 'next/image';
-import { Project } from '@/types';
+import { Project, User } from '@/types';
 
-const Projects = ({ projects }: { projects: Project[] }) => {
+const Projects = ({ projects, user, token, id }: { projects: Project[], user: User | null | undefined; token: string | null | undefined; id:string }) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const { token } = useUser();
 
     const deleteProject = async (id?: string) => {
         if (!id) return;
@@ -71,18 +69,29 @@ const Projects = ({ projects }: { projects: Project[] }) => {
                                     >
                                         View details ↗
                                     </Link>
-                                    <button
-                                        onClick={() => deleteProject(project?._id)}
-                                        className="flex-1 text-center py-3 bg-linear-to-r from-red-600 to-red-400 rounded-xl font-bold text-sm text-white hover:opacity-90 transition-opacity"
-                                    >
-                                        {loading ? 'Deleting...' : 'Delete Portfolio'}
-                                    </button>
+                                    {
+                                        id === user?.id &&
+                                        <button
+                                            onClick={() => deleteProject(project?._id)}
+                                            className="flex-1 text-center py-3 bg-linear-to-r from-red-600 to-red-400 rounded-xl font-bold text-sm text-white hover:opacity-90 transition-opacity"
+                                        >
+                                            {loading ? 'Deleting...' : 'Delete Portfolio'}
+                                        </button>
+                                    }
                                 </div>
                             </div>
                         </div>
                     ))
                 }
             </div>
+                {
+                        id === user?.id &&
+                    <div className='text-center'>
+                        <Link href={'/dashboard/my-projects'} className="cursor-pointer flex-1 text-center py-3 bg-blue-600 rounded-xl font-bold text-sm text-white hover:opacity-90 transition-opacity px-3">
+                            Add More Projects
+                        </Link>
+                    </div>
+                }
         </section>
     );
 };

@@ -1,16 +1,16 @@
 import Image from "next/image";
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Eye, Heart } from 'lucide-react';
+import Link from "next/link";
 
 
 interface ProjectCardProps {
-  image: string;
-  category: string;
-  title: string;
-  author: string;
-  university: string;
-  likes: string;
-  views: string;
+    id: string;
+    image: string;
+    category: string;
+    title: string;
+    author: string;
+    university: string;
 }
 
 // --- Framer Motion Animation Variants ---
@@ -19,7 +19,7 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } }
 };
 
-export default function ProjectCard({ image, category, title, author, university, likes, views }: ProjectCardProps) {
+export default function ProjectCard({ id, image, category, title, author, university,}: ProjectCardProps) {
     return (
         <motion.div 
             variants={fadeInUp}
@@ -48,13 +48,13 @@ export default function ProjectCard({ image, category, title, author, university
                 </div>
                 
                 <div className="flex items-center justify-between pt-3 border-t border-slate-50 text-[11px] font-semibold text-slate-400">
-                <div className="flex items-center gap-3">
+                {/* <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1 hover:text-red-500 transition-colors cursor-pointer"><Heart className="h-3.5 w-3.5" /> {likes}</span>
                     <span className="flex items-center gap-1"><Eye className="h-3.5 w-3.5" /> {views}</span>
-                </div>
-                <button className="inline-flex items-center gap-1 text-blue-600 hover:underline font-bold">
+                </div> */}
+                <Link href={`/projects/${id}`}  className="cursor-pointer inline-flex items-center gap-1 text-blue-600 hover:underline font-bold">
                     View Layout <ArrowUpRight className="h-3 w-3" />
-                </button>
+                </Link>
                 </div>
             </div>
         </motion.div>

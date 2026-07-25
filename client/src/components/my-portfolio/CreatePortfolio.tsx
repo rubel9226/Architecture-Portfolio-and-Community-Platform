@@ -139,7 +139,7 @@ export default function PortfolioCreatorPage({ userData, user }: { userData?: Po
             <div className="min-h-screen bg-slate-100 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-colors duration-300 font-sans pb-24 selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900">
             
                 {/* --- Sticky Glass Top Navigation --- */}
-                <header className="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-zinc-950/70 border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
+                {/* <header className="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-zinc-950/70 border-b border-slate-200/80 dark:border-zinc-800/80 transition-colors">
                     <div className="max-w-350 mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
                     
                         <div className="flex items-center gap-3">
@@ -156,7 +156,6 @@ export default function PortfolioCreatorPage({ userData, user }: { userData?: Po
                             </div>
                         </div>
 
-                        {/* Header Right */}
                         <div className="flex items-center gap-3">
                             <button
                                 type="button"
@@ -187,7 +186,7 @@ export default function PortfolioCreatorPage({ userData, user }: { userData?: Po
                             </button>
                         </div>
                     </div>
-                </header>
+                </header> */}
 
                 {/* --- Main Dashboard Content --- */}
                 <main className="max-w-350 mx-auto px-4 sm:px-6 pt-8 space-y-8">
