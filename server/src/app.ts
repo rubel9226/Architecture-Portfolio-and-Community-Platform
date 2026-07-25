@@ -18,7 +18,7 @@ const app = express();
 app.use( cors({
     origin: [
         clientURL,
-        "",
+        "https://archifolio-clientside.vercel.app",
         "http://localhost:3000",
     ],
     credentials: true,
