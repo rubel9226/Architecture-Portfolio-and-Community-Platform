@@ -13,7 +13,7 @@ import rateLimiter from "./middlewares/rateLimiter.js";
 
 const clientURL = process.env.CLIENT_URL || "";
 
-export const app = express();
+const app = express();
 
 app.use( cors({
     origin: [
@@ -48,3 +48,6 @@ app.use( ( err: any, req: Request, res: Response, next: NextFunction ) => {
         message: err.message || "Internal Server Error",
     });
 });
+
+
+export default app;

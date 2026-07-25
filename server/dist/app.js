@@ -9,7 +9,7 @@ import { portfolio } from "./routes/portfolio.route.js";
 import "./models/user.model.js";
 import rateLimiter from "./middlewares/rateLimiter.js";
 const clientURL = process.env.CLIENT_URL || "";
-export const app = express();
+const app = express();
 app.use(cors({
     origin: [
         clientURL,
@@ -37,4 +37,5 @@ app.use((err, req, res, next) => {
         message: err.message || "Internal Server Error",
     });
 });
+export default app;
 //# sourceMappingURL=app.js.map

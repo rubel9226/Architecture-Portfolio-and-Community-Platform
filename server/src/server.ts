@@ -1,5 +1,5 @@
 
-import { app } from "./app.js";
+import app from "./app.js";
 import { connectDatabase } from "./config/db.js";
 import { serverPort } from "./secret.js";
 
