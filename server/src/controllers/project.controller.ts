@@ -164,6 +164,45 @@ export const handleGetAllProject = async ( req: Request, res: Response, next: Ne
 
 
 
+export const handleGetHomePublicProjects = async ( req: Request, res: Response, next: NextFunction ) => {
+    try {
+        const projects = await Project.find({visibility: "public"})
+            .limit(8)
+            .sort({ createdAt: -1 })
+            .populate('author');
+
+        return successResponse(res, {
+            statusCode: 201,
+            message: "Project created successfully",
+            payload: projects,
+        });
+    } catch (error) {
+        next(error);
+    }
+}; 
+
+
+
+
+export const handleGetHomeFeatured = async ( req: Request, res: Response, next: NextFunction ) => {
+    try {
+        const projects = await Project.find({isFeatured: true})
+            .limit(8)
+            .sort({ createdAt: -1 });
+
+        return successResponse(res, {
+            statusCode: 201,
+            message: "Project created successfully",
+            payload: projects,
+        });
+    } catch (error) {
+        next(error);
+    }
+}; 
+
+
+
+
 export const handleGetSingleProject = async ( req: Request, res: Response, next: NextFunction ) => {
     try { 
         const project = await Project.findById(req?.params?.id);
