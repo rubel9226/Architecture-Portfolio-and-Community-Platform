@@ -24,10 +24,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
   else if(!session && pathname === '/login') {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.next();
   }
   else if(!session && pathname === '/register') {
-    return NextResponse.redirect(new URL("/register", request.url));
+    return NextResponse.next();
   }
   else if(!session) {
     return NextResponse.redirect(new URL("/login", request.url));
