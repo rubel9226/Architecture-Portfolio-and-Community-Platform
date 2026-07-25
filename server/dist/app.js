@@ -7,6 +7,7 @@ import { project } from "./routes/project.route.js";
 import { errorResponse } from "./utils/response.controller.js";
 import { rateLimiter } from "./middlewares/rateLimiter.js";
 import { portfolio } from "./routes/portfolio.route.js";
+import "./models/user.model.js";
 const clientURL = process.env.CLIENT_URL || "";
 export const app = express();
 app.use(cors({

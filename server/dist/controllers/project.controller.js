@@ -77,11 +77,27 @@ export const handleGetMyProject = async (req, res, next) => {
 };
 export const handleGetAllProject = async (req, res, next) => {
     try {
-        const projects = await Project.find({});
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 12;
+        const skip = (page - 1) * limit;
+        const total = await Project.countDocuments({
+            visibility: "public",
+        });
+        const projects = await Project.find({ visibility: "public" })
+            .populate("author", "name username image")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
         return successResponse(res, {
             statusCode: 201,
             message: "Project created successfully",
-            payload: projects,
+            payload: {
+                projects,
+                pagination: {
+                    page,
+                    totalPages: Math.ceil(total / limit)
+                }
+            },
         });
     }
     catch (error) {

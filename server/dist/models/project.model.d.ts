@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-export type ProjectVisibility = "public" | "public";
+export type ProjectVisibility = "public" | "private";
 export interface IProject extends Document {
     title: string;
     category: string;
@@ -17,6 +17,7 @@ export interface IProject extends Document {
     softwareUsed: string[];
     tags: string[];
     isPortfolio: boolean;
+    isFeatured: boolean;
     visibility: ProjectVisibility;
     likes: string[];
     likeCount: number;

@@ -71,10 +71,14 @@ const projectSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    isFeatured: {
+        type: Boolean,
+        default: false,
+    },
     visibility: {
         type: String,
         lowercase: true,
-        enum: ["public", "public"],
+        enum: ["public", "private"],
         default: "public",
     },
     likes: {
