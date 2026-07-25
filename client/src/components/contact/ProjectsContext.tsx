@@ -1,151 +1,326 @@
-// context/ProjectsContext.tsx
-'use client';
-import React, { createContext, useContext, useState, useMemo } from 'react';
-import { useUser } from '@/hooks/AuthContext';
-import { DashboardViewMode, Project, ProjectVisibility } from '@/types';
+"use client";
 
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import { useUser } from "@/hooks/AuthContext";
+import { DashboardViewMode, Project, ProjectVisibility, } from "@/types";
 
 interface ToastState {
     show: boolean;
     message: string;
-    type: 'success' | 'error';
+    type: "success" | "error";
 }
 
 interface ProjectsContextType {
     projects: Project[];
+    allProjects: Project[];
+
     viewMode: DashboardViewMode;
     setViewMode: (mode: DashboardViewMode) => void;
+
     searchQuery: string;
     setSearchQuery: (query: string) => void;
+
     visibilityFilter: string;
     setVisibilityFilter: (filter: string) => void;
+
     categoryFilter: string;
     setCategoryFilter: (filter: string) => void;
+
     sortBy: string;
     setSortBy: (sort: string) => void;
+
     selectedIds: string[];
+
     toggleSelectProject: (id: string) => void;
     toggleSelectAll: () => void;
     clearSelection: () => void;
-    pinProject: (id: string) => void;
-    duplicateProject: (id: string) => void;
-    archiveProject: (id: string) => void;
-    bulkDelete: () => void;
-    bulkChangeVisibility: (visibility: ProjectVisibility) => void;
-    deleteId: string | null;
-    setDeleteId: (id: string | null) => void;
+
     executeDelete: () => void;
+
+    bulkDelete: () => void;
+
+    bulkChangeVisibility: (
+        visibility: ProjectVisibility
+    ) => void;
+
+    deleteId: string | null;
+    setDeleteId: React.Dispatch<React.SetStateAction<string | null>>;
+
     toast: ToastState;
-    triggerToast: (message: string, type: 'success' | 'error') => void;
+
+    triggerToast: (
+        message: string,
+        type: "success" | "error"
+    ) => void;
+
     dismissToast: () => void;
 }
 
-const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
+const ProjectsContext = createContext<ProjectsContextType | null>(null);
 
-export function ProjectsProvider({ children }: { children: React.ReactNode }) {
-    const data = useUser();
-    const [projects, setProjects] = useState<Project[]>(data?.projects ?? []);
-    const [viewMode, setViewMode] = useState<DashboardViewMode>('grid');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [visibilityFilter, setVisibilityFilter] = useState('ALL');
-    const [categoryFilter, setCategoryFilter] = useState('ALL_CAT');
-    const [sortBy, setSortBy] = useState('newest');
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
-    const [deleteId, setDeleteId] = useState<string | null>(null);
-    const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
+export function ProjectsProvider({ children, }: { children: React.ReactNode; }) {
+    const { projects: userProjects = [] } = useUser();
 
-    const triggerToast = (message: string, type: 'success' | 'error') => {
-        setToast({ show: true, message, type });
-    };
+    const [projects, setProjects] =
+        useState<Project[]>(userProjects);
 
-    const dismissToast = () => setToast(prev => ({ ...prev, show: false }));
+    useEffect(() => {
+        setProjects(userProjects);
+    }, [userProjects]);
 
-    const toggleSelectProject = (id: string) => {
-        setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+    const [viewMode, setViewMode] =
+        useState<DashboardViewMode>("grid");
+
+    const [searchQuery, setSearchQuery] =
+        useState("");
+
+    const [visibilityFilter, setVisibilityFilter] =
+        useState("ALL");
+
+    const [categoryFilter, setCategoryFilter] =
+        useState("ALL");
+
+    const [sortBy, setSortBy] =
+        useState("newest");
+
+    const [selectedIds, setSelectedIds] =
+        useState<string[]>([]);
+
+    const [deleteId, setDeleteId] =
+        useState<string | null>(null);
+
+    const [toast, setToast] =
+        useState<ToastState>({ show: false, message: "", type: "success", });
+
+        const triggerToast = ( message: string, type: "success" | "error" ) => {
+            setToast({ show: true, message, type, });
+        };
+
+    const dismissToast = () => {
+        setToast((prev) => ({
+        ...prev,
+        show: false,
+        }));
     };
 
     const filteredProjects = useMemo(() => {
-        return projects.filter(p => {
-        const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                p.description.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesVisibility = visibilityFilter === 'ALL' || 
-                                    (visibilityFilter === 'ARCHIVED' ? p.isArchived : p.visibility === visibilityFilter && !p.isArchived);
-        const matchesCategory = categoryFilter === 'ALL_CAT' || p.category === categoryFilter;
-        return matchesSearch && matchesVisibility && matchesCategory;
-        });
-    }, [projects, searchQuery, visibilityFilter, categoryFilter]);
+        let data = [...projects];
+
+        if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+
+        data = data.filter(
+            (project) =>
+            project.title
+                .toLowerCase()
+                .includes(q) ||
+            project.overview
+                .toLowerCase()
+                .includes(q)
+        );
+        }
+
+        if (visibilityFilter !== "ALL") {
+        data = data.filter(
+            (project) =>
+            project.visibility ===
+            visibilityFilter.toLowerCase()
+        );
+        }
+
+        if (categoryFilter !== "ALL") {
+        data = data.filter(
+            (project) =>
+            project.category ===
+            categoryFilter.toLowerCase()
+        );
+        }
+
+        switch (sortBy) {
+        case "oldest":
+            data.sort(
+            (a, b) =>
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
+            );
+            break;
+
+        case "title":
+            data.sort((a, b) =>
+            a.title.localeCompare(b.title)
+            );
+            break;
+
+        default:
+            data.sort(
+            (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            );
+        }
+
+        return data;
+    }, [
+        projects,
+        searchQuery,
+        visibilityFilter,
+        categoryFilter,
+        sortBy,
+    ]);
+
+    const toggleSelectProject = ( id: string ) => {
+        setSelectedIds((prev) =>
+        prev.includes(id)
+            ? prev.filter((item) => item !== id)
+            : [...prev, id]
+        );
+    };
 
     const toggleSelectAll = () => {
-        if (selectedIds.length === filteredProjects.length) {
+        if ( selectedIds.length === filteredProjects.length ) {
         setSelectedIds([]);
-        } else {
-        setSelectedIds(filteredProjects.map(p => p.id));
+        return;
         }
+
+        setSelectedIds( filteredProjects.map( (project) => project._id ) );
     };
 
-    const clearSelection = () => setSelectedIds([]);
-
-    const pinProject = (id: string) => {
-        setProjects(prev => prev.map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p));
-        triggerToast('Project architectural pinning state modified.', 'success');
-    };
-
-    const duplicateProject = (id: string) => {
-        const target = projects.find(p => p.id === id);
-        if (target) {
-        const duplicate: Project = {
-            ...target,
-            id: `arch-dup-${Date.now()}`,
-            title: `${target.title} (Copy)`,
-            createdAt: new Date().toISOString().split('T')[0],
-            isPinned: false
-        };
-        setProjects(prev => [duplicate, ...prev]);
-        triggerToast('Project topology tree duplicated successfully.', 'success');
-        }
-    };
-
-    const archiveProject = (id: string) => {
-        setProjects(prev => prev.map(p => p.id === id ? { ...p, isArchived: !p.isArchived } : p));
-        triggerToast('Project moved to archival registry index.', 'success');
-    };
+  const clearSelection = () => { setSelectedIds([]); };
 
     const executeDelete = () => {
-        if (deleteId) {
-        setProjects(prev => prev.filter(p => p.id !== deleteId));
-        setSelectedIds(prev => prev.filter(x => x !== deleteId));
-        setDeleteId(null);
-        triggerToast('Architectural project deleted permanently.', 'success');
-        }
-    };
+    if (!deleteId) return;
 
-    const bulkDelete = () => {
-        setProjects(prev => prev.filter(p => !selectedIds.includes(p.id)));
-        setSelectedIds([]);
-        triggerToast('Selected project collection cleared from index.', 'success');
-    };
-
-    const bulkChangeVisibility = (visibility: ProjectVisibility) => {
-        setProjects(prev => prev.map(p => selectedIds.includes(p.id) ? { ...p, visibility } : p));
-        setSelectedIds([]);
-        triggerToast(`Bulk items modified to target access tier: ${visibility}`, 'success');
-    };
-
-    return (
-        <ProjectsContext.Provider value={{
-        projects: filteredProjects, viewMode, setViewMode, searchQuery, setSearchQuery,
-        visibilityFilter, setVisibilityFilter, categoryFilter, setCategoryFilter, sortBy, setSortBy,
-        selectedIds, toggleSelectProject, toggleSelectAll, clearSelection, pinProject, duplicateProject,
-        archiveProject, bulkDelete, bulkChangeVisibility, deleteId, setDeleteId, executeDelete,
-        toast, triggerToast, dismissToast
-        }}>
-        {children}
-        </ProjectsContext.Provider>
+    setProjects((prev) =>
+      prev.filter(
+        (project) => project._id !== deleteId
+      )
     );
+
+    setSelectedIds((prev) =>
+      prev.filter(
+        (id) => id !== deleteId
+      )
+    );
+
+    setDeleteId(null);
+
+    triggerToast(
+      "Project deleted successfully.",
+      "success"
+    );
+  };
+
+  const bulkDelete = () => {
+    if (!selectedIds.length) {
+      triggerToast(
+        "No project selected.",
+        "error"
+      );
+      return;
     }
+
+    setProjects((prev) =>
+      prev.filter(
+        (project) =>
+          !selectedIds.includes(project._id)
+      )
+    );
+
+    setSelectedIds([]);
+
+    triggerToast(
+      "Selected projects deleted successfully.",
+      "success"
+    );
+  };
+
+
+  const bulkChangeVisibility = (
+    visibility: ProjectVisibility
+  ) => {
+
+    if (!selectedIds.length) {
+      triggerToast(
+        "No project selected.",
+        "error"
+      );
+      return;
+    }
+
+    setProjects((prev) =>
+        prev.map((project) => selectedIds.includes(project._id) ? { ...project, visibility, } : project )
+    );
+
+    setSelectedIds([]);
+
+    triggerToast( `Projects changed to ${visibility}.`, "success" );
+};
+
+
+
+  return (
+    <ProjectsContext.Provider
+      value={{
+        projects: filteredProjects,
+        allProjects: projects,
+
+        viewMode,
+        setViewMode,
+
+        searchQuery,
+        setSearchQuery,
+
+        visibilityFilter,
+        setVisibilityFilter,
+
+        categoryFilter,
+        setCategoryFilter,
+
+        sortBy,
+        setSortBy,
+
+        selectedIds,
+
+        toggleSelectProject,
+        toggleSelectAll,
+        clearSelection,
+
+        deleteId,
+        setDeleteId,
+
+        toast,
+
+        triggerToast,
+        dismissToast,
+
+        // Part-2
+        executeDelete,
+        bulkDelete,
+        bulkChangeVisibility,
+      }}
+    >
+      {children}
+    </ProjectsContext.Provider>
+  );
+}
+
+
 
 export function useProjects() {
     const context = useContext(ProjectsContext);
-    if (!context) throw new Error('useProjects must be inside ProjectsProvider');
-    return context;
-}
+
+    if (!context) {
+        throw new Error(
+        "useProjects must be used inside ProjectsProvider"
+        );
+    }
+
+  return context;
+}   

@@ -1,26 +1,6 @@
 // data/projectMockData.ts
-import { ProjectData, Technology, Designer, Statistic, GalleryImage, RelatedProject, CommentItem } from '@/types/project';
+import { Technology, Designer, Statistic, GalleryImage, RelatedProject, CommentItem } from '@/types/project';
 
-export const projectData: ProjectData = {
-  id: 'arch-001',
-  title: 'The Obsidian Pavilion',
-  category: 'Sustainable Residential',
-  shortDescription: 'A biophilic residential masterpiece blending brutalist obsidian concrete planes with sub-tropical regenerative ecosystems.',
-  description: 'The Obsidian Pavilion redefines luxury coastal living through a zero-carbon footprint approach. Situated on a cliffside, the structure acts as an extension of the volcanic topography, prioritizing thermal massing and natural micro-climate generation.',
-  goals: [
-    'Achieve net-zero operational energy emissions.',
-    'Integrate seamless indoor-outdoor transitions mimicking native ecosystems.',
-    'Utilize carbon-negative locally sourced basalt composite aggregates.'
-  ],
-  concept: 'The design derives from traditional origami folding techniques combined with structural optimization algorithms, maximizing panoramic ocean views while deflecting high-velocity coastal winds.',
-  challenges: 'The extreme marine microclimate posed intense structural corrosion risks, while the steep 45-degree topography limited access for traditional heavy machinery.',
-  solutions: 'Implemented pre-fabricated cantilevered structural modules anchored deeply using high-tension carbon fiber earth ties, paired with a self-healing ultra-high-performance concrete matrix.',
-  location: 'Reykjavík, Iceland',
-  type: 'Residential Complex',
-  area: '4,250 sq ft',
-  year: '2026',
-  visibility: 'Public Feature'
-};
 
 export const technologies: Technology[] = [
   { name: 'AutoCAD', iconName: 'FolderOpen' },

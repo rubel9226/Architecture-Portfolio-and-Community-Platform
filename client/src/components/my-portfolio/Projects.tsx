@@ -44,7 +44,7 @@ const Projects = ({ projects }: { projects: Project[] }) => {
                                 <Image 
                                     width={200}
                                     height={200}
-                                    alt={project?.name}
+                                    alt={project?.title}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                     src={project?.coverImage}
                                 />

@@ -1,11 +1,12 @@
+import { Project } from '@/types';
 import { ProjectData } from '@/types/project';
 import { MapPin, Calendar, Building2, Hammer, Layers, Eye } from 'lucide-react';
 
-export default function ProjectInfo({ data }: { data: ProjectData }) {
+export default function ProjectInfo({ data }: { data: Project }) {
   const infoItems = [
     { label: 'Location', value: data.location, icon: MapPin },
-    { label: 'Structural Type', value: data.type, icon: Building2 },
-    { label: 'Built Footprint', value: data.area, icon: Layers },
+    { label: 'Structural Type', value: data.projectType, icon: Building2 },
+    { label: 'Built Footprint', value: data.location, icon: Layers },
     { label: 'Completion Year', value: data.year, icon: Calendar },
     { label: 'Access Level', value: data.visibility, icon: Eye },
   ];

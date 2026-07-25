@@ -147,22 +147,22 @@ export default function ProjectCard({ project, layoutMode }: { project: Project;
                 <div className="space-y-2">
                     <div className=" flex  items-center  justify-between  gap-2 ">
                         <span className=" text-[10px] font-bold text-slate-400 uppercase tracking-wider " >
-                            {project.category}
+                            {project?.category}
                         </span>
                         <span className={` inline-flex items-center gap-1 px-2 py-0.5 border text-[9px] font-bold rounded
                             ${visibilityStyles[project?.visibility]}
                             `}
                         >
                             <VIcon size={9}/>
-                            {project.visibility}
+                            {project?.visibility}
                         </span>
                     </div>
 
                     <h3 className=" text-sm font-bold text-white tracking-tight line-clamp-1 group-hover:text-blue-400 transition-colors " >
-                        {project.title}
+                        {project?.title}
                     </h3> 
                     <p className=" text-xs text-slate-400 leading-relaxed line-clamp-2 " >
-                        {project.description}
+                        {project?.overview}
                     </p>
                 </div>
 

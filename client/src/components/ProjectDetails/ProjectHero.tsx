@@ -28,7 +28,7 @@ export default function ProjectHero({ data }: { data: ProjectData }) {
             {data.title}
           </motion.h1>
           <motion.p variants={fadeUp} className="text-lg sm:text-xl text-slate-300 font-light leading-relaxed max-w-2xl">
-            {data.shortDescription}
+            {data.overview}
           </motion.p>
           
           <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3 pt-4 md:hidden">

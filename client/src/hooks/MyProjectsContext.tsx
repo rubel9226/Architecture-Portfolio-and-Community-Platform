@@ -28,8 +28,6 @@ interface ProjectsContextType {
     selectedIds: string[];
     toggleSelectProject: (id: string) => void;
     toggleSelectAll: () => void;
-    clearSelection: () => void;
-    pinProject: (id: string) => void;
     duplicateProject: (id: string) => void;
     archiveProject: (id: string) => void;
     bulkDelete: () => void;
@@ -83,14 +81,23 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
 
     const filteredProjects = useMemo(() => {
         return projects.filter(p => {
-        const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                p.description.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesVisibility = visibilityFilter === 'ALL' || 
-                                    (visibilityFilter === 'ARCHIVED' ? p.isArchived : p.visibility === visibilityFilter && !p.isArchived);
-        const matchesCategory = categoryFilter === 'ALL_CAT' || p.category === categoryFilter;
-        return matchesSearch && matchesVisibility && matchesCategory;
+
+            const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.overview.toLowerCase().includes(searchQuery.toLowerCase());
+
+
+            const matchesVisibility = visibilityFilter === "ALL" || p.visibility === visibilityFilter.toLowerCase();
+
+
+            const matchesCategory = categoryFilter === "ALL_CAT" || p.category === categoryFilter;
+
+            return (
+                matchesSearch &&
+                matchesVisibility &&
+                matchesCategory
+            );
         });
-    }, [projects, searchQuery, visibilityFilter, categoryFilter]);
+    }, [ projects, searchQuery, visibilityFilter, categoryFilter ]);
+
 
     const toggleSelectAll = () => {
         if (selectedIds.length === filteredProjects.length) {
@@ -98,24 +105,16 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         } else {
             setSelectedIds(filteredProjects.map(p => p._id));
         }
-    };
-
-    const clearSelection = () => setSelectedIds([]);
-
-    const pinProject = (id: string) => {
-        setProjects(prev => prev.map(p => p._id === id ? { ...p, isPinned: !p.isPinned } : p));
-        triggerToast('Project architectural pinning state modified.', 'success');
-    };
+    }
 
     const duplicateProject = (id: string) => {
         const target = projects.find(p => p._id === id);
         if (target) {
         const duplicate: Project = {
             ...target,
-            id: `arch-dup-${Date.now()}`,
+            _id: `arch-dup-${Date.now()}`,
             title: `${target.title} (Copy)`,
             createdAt: new Date().toISOString().split('T')[0],
-            isPinned: false
         };
         setProjects(prev => [duplicate, ...prev]);
         triggerToast('Project topology tree duplicated successfully.', 'success');
@@ -123,8 +122,18 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     };
 
     const archiveProject = (id: string) => {
-        setProjects(prev => prev.map(p => p._id === id ? { ...p, isArchived: !p.isArchived } : p));
-        triggerToast('Project moved to archival registry index.', 'success');
+        setProjects(prev =>
+            prev.map(p =>
+                p._id === id
+                    ? {
+                        ...p,
+                        visibility: "private"
+                    }
+                    : p
+            )
+        );
+
+        triggerToast( "Project visibility changed.", "success" );
     };
 
     const executeDelete = () => {
@@ -190,7 +199,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         <ProjectsContext.Provider value={{
             projects: filteredProjects, viewMode, setViewMode, searchQuery, setSearchQuery,
             visibilityFilter, setVisibilityFilter, categoryFilter, setCategoryFilter, sortBy, setSortBy,
-            selectedIds, toggleSelectProject, toggleSelectAll, clearSelection, pinProject, duplicateProject,
+            selectedIds, toggleSelectProject, toggleSelectAll, duplicateProject,
             archiveProject, bulkDelete, bulkChangeVisibility, deleteId, setDeleteId, executeDelete,
             toast, triggerToast, dismissToast, togglePortfolioProject, deleteProject
         }}>

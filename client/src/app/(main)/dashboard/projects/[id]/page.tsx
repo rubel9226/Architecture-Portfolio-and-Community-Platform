@@ -1,3 +1,5 @@
+'use client'
+
 // app/projects/[id]/page.tsx
 import Comments from '@/components/ProjectDetails/Comments';
 import DesignerCard from '@/components/ProjectDetails/DesignerCard';
@@ -9,11 +11,52 @@ import ProjectStats from '@/components/ProjectDetails/ProjectStats';
 import RelatedProjects from '@/components/ProjectDetails/RelatedProjects';
 import StickySidebar from '@/components/ProjectDetails/StickySidebar';
 import Technologies from '@/components/ProjectDetails/Technologies';
-import { projectData, technologies, designer, statistics, galleryImages, relatedProjects, comments } from '@/data/projectMockData';
+import { technologies, designer, statistics, galleryImages, relatedProjects, comments } from '@/data/projectMockData';
+import api from '@/lib/api';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 
 
 export default function ProjectDetailsPage() {
+    const {id} = useParams();
+    const [projectData, setProjectData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+
+    const handleGetData = async () => {
+        try {
+            const res = await api.get(`/single-project/${id}`)
+            console.log(res);
+            setProjectData(res?.data?.payload);
+        } catch (error) {
+            console.log(error)
+        } finally{
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        handleGetData();
+    }, [])
+
+        if(loading){
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                Loading...
+            </div>
+        );
+    }
+
+
+    if(!projectData){
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                Project not found
+            </div>
+        );
+    }
+
     return (
         <main className="min-h-screen bg-slate-50/60 pb-24 antialiased selection:bg-blue-600/10">            
             <ProjectHero data={projectData} />
