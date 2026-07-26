@@ -13,6 +13,7 @@ import { TagInput } from "./create/TagInputProps";
 
 import { PortfolioData } from "@/types";
 import type { User as UserType } from "@/types/allType";
+import { useRouter } from "next/navigation";
 
 
 export default function PortfolioCreatorPage({ userData, user }: { userData?: PortfolioData | null; user?: UserType | null }) {
@@ -45,6 +46,7 @@ export default function PortfolioCreatorPage({ userData, user }: { userData?: Po
 
     // Hooks
     const {token} = useUser();
+    const router = useRouter();
     
     useEffect(() => {
         if(userData){
@@ -126,7 +128,8 @@ export default function PortfolioCreatorPage({ userData, user }: { userData?: Po
                     }
                 }
             );
-            setShowToast(true); 
+            setShowToast(true);
+            router.push(`/portfolio/${user?.id}`)
         } catch (error) {
             console.log(error);
         } finally{

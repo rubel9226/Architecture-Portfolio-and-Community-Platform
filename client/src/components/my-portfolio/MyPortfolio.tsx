@@ -15,6 +15,9 @@ import { NavbarPortfolio } from './Navbar';
 import Footer from './Footer';
 import { PortfolioData, Project, User } from "@/types";
 
+gsap.registerPlugin()
+
+
 export default function MyPortfolioPage({ userData, projects, user, token, id }: { userData?: PortfolioData | null; projects: Project[]; user: User | null | undefined; token: string | null | undefined; id: string }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("home");
@@ -130,7 +133,7 @@ export default function MyPortfolioPage({ userData, projects, user, token, id }:
                 />  
 
                 <main>
-                    <Hero userData={userData} /> 
+                    <Hero userData={userData} isLoading={isLoading} /> 
                     <div data-scroll-reveal>
                         <About userData={userData} />
                     </div>

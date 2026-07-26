@@ -6,28 +6,38 @@ import { Typewriter } from "react-simple-typewriter";
 import { PortfolioData } from "@/types";
 
 
-const Hero = ({ userData }: { userData: PortfolioData | null | undefined }) => {
+const Hero = ({ userData, isLoading }: { userData: PortfolioData | null | undefined; isLoading: boolean }) => {
     const heroRef = useRef(null);
     const imageRef = useRef(null);
     const contentRef = useRef(null);
 
+    console.log("HERO USER DATA:", userData);
+
     // Intro entry animations
-    useEffect(() => { 
-        const tl = gsap.timeline(); 
-        tl.from(contentRef.current, {
+useEffect(() => {
+    if (!userData || !contentRef.current || !imageRef.current) return;
+
+    const ctx = gsap.context(() => {
+        gsap.from(contentRef.current, {
             opacity: 0,
             y: 80,
             duration: 1,
             ease: "power4.out"
-        })
-        .from(imageRef.current, {
+        });
+
+        gsap.from(imageRef.current, {
             opacity: 0,
             scale: 0.7,
             rotate: 15,
             duration: 1,
             ease: "back.out(1.8)"
-        }, "<");
-    }, []);
+        });
+
+    });
+
+    return () => ctx.revert();
+
+}, [userData]);
 
     // Mousemove interactive parallax effect
     useEffect(() => { 

@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({session}) => {
           {/* Left Area */}
           <div className="flex items-center gap-8">
             <Logo />
-            <nav className="hidden md:flex items-center gap-6" aria-label="Global Desktop Navigation">
+            <nav className="hidden lg:flex items-center gap-6" aria-label="Global Desktop Navigation">
               <Link
                 href="/"
                 className={`text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1 py-0.5 ${
@@ -67,10 +67,18 @@ export const Navbar: React.FC<NavbarProps> = ({session}) => {
               <Link
                 href="/projects"
                 className={`text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1 py-0.5 ${
-                  isLinkActive('/dashboard/public-projects') ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  isLinkActive('/projects') ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 Public Projects
+              </Link>
+              <Link
+                href={`/portfolio/${session?.user?.id}`}
+                className={`text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded px-1 py-0.5 ${
+                  isLinkActive(`/portfolio/${session?.user?.id}`) ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                My Portfolio
               </Link>
               {/* <Link
                 href="/dashboard/add-projects"
@@ -84,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({session}) => {
           </div>
 
           {/* Right Action Stack */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             {/* <SearchInput />
             <ThemeToggle />
              */}
@@ -117,7 +125,7 @@ export const Navbar: React.FC<NavbarProps> = ({session}) => {
                 </Link>
                 <Link 
                   href="/register" 
-                  className="h-10 px-5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm transition-all duration-300"
+                  className="h-10 px-5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm transition-all duration-300 content-center"
                 >
                   Register
                 </Link>
@@ -126,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({session}) => {
           </div>
 
           {/* Mobile Right Block controls */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-2">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}

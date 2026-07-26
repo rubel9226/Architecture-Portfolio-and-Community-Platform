@@ -27,10 +27,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
   const mainNav = [
     { name: 'Home', href: '/' },
     { name: 'My Projects', href: '/dashboard/my-projects' },
+    { name: 'Create Project', href: '/dashboard/add-projects' },
     { name: 'Public Projects', href: '/projects' },
-    { name: 'Add Projects', href: '/dashboard/add-projects' },
     { name: 'My Portfolio', href: `/portfolio/${user?.id}` },
-    { name: 'Add Portfolio', href: '/dashboard/portfolio' },
+    { name: 'Create Portfolio', href: '/dashboard/portfolio' },
   ];
   
   useEffect(() => {
@@ -48,7 +48,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, isLogge
 
   return (
     <div 
-      className={`fixed inset-0 z-50 md:hidden transition-visibility duration-300 ${isOpen ? 'visible' : 'invisible'}`}
+      className={`fixed inset-0 z-50 lg:hidden transition-visibility duration-300 ${isOpen ? 'visible' : 'invisible'}`}
       role="dialog" 
       aria-modal="true"
     >

@@ -6,14 +6,6 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, User, FolderHeart, UserPen , Bookmark, Settings, LogOut } from 'lucide-react';
 import { handleLogout } from '@/api/LoginAndRegister';
 
-const menuItems = [
-  { name: 'My Profile', href: '/dashboard/profile', icon: LayoutDashboard },
-  { name: 'My Portfolio', href: '/portfolio', icon: User },
-  { name: 'My Projects', href: '/dashboard/my-projects', icon: FolderHeart },
-  { name: 'Saved Projects', href: '/dashboard/saved', icon: Bookmark },
-  { name: 'Edit Profile', href: '/dashboard/edit-profile', icon: UserPen },
-  // { name: 'Settings', href: '/dashboard/settings', icon: Settings },
-];
 
 interface ProfileDropdownProps {
   user: {
@@ -29,6 +21,16 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user }) => {
   const pathname = usePathname();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  
+const menuItems = [
+  { name: 'My Profile', href: '/dashboard/profile', icon: LayoutDashboard },
+  { name: 'Create Portfolio', href: `/dashboard/portfolio/`, icon: User },
+  { name: 'My Projects', href: '/dashboard/my-projects', icon: FolderHeart },
+  { name: 'Saved Projects', href: '/dashboard/saved', icon: Bookmark },
+  { name: 'Edit Profile', href: '/dashboard/edit-profile', icon: UserPen },
+  // { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

@@ -3,6 +3,7 @@ import api from "@/lib/api";
 import PortfolioNotFound from './../../../../components/my-portfolio/NotFound';
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 
 interface PageProps {
@@ -42,6 +43,12 @@ export default async function Home({params}: PageProps) {
         token = tokenData?.token;
     }catch(error) {
         console.log(error);
+    }
+
+    if(user?.id === id){
+        if(!userData){
+             redirect("/dashboard/portfolio");
+        }
     }
     return (
         <>
